@@ -29,7 +29,7 @@ public class User extends AbstractEntity{
 	private Date lastLogin;
 	private String token;
 	
-	private List<Phone> phones;
+	//private List<Phone> phones;
 
 	public User() {
 	}
@@ -61,7 +61,7 @@ public class User extends AbstractEntity{
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+	/*
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	public List<Phone> getPhones() {
 		return phones;
@@ -70,7 +70,7 @@ public class User extends AbstractEntity{
 	public void setPhones(List<Phone> phones) {
 		this.phones = phones;
 	}
-
+*/
 	@Column(name="last_login", nullable = false)
 	public Date getLastLogin() {
 		return lastLogin;
@@ -101,7 +101,7 @@ public class User extends AbstractEntity{
 
 	@Override
 	public String toString() {
-		return "User [name=" + name + ", email=" + email + ", password=" + password + ", phones=" + phones
+		return "User [name=" + name + ", email=" + email + ", password=" + password
 				+ ", getId()=" + getId() + ", getCreated()=" + getCreated() + ", getModified()=" + getModified() + "]";
 	}
 

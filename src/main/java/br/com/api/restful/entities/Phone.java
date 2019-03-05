@@ -2,6 +2,8 @@ package br.com.api.restful.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -10,16 +12,17 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name="phone")
-public class Phone extends AbstractEntity{
+@Table(name = "phone")
+public class Phone extends AbstractEntity {
 
 	private String number;
 	private String ddd;
-	
+	//private User user;
+
 	public Phone() {
 	}
 
-	@Column(name="number", nullable = false)
+	@Column(name = "number", nullable = false)
 	public String getNumber() {
 		return number;
 	}
@@ -27,8 +30,8 @@ public class Phone extends AbstractEntity{
 	public void setNumber(String number) {
 		this.number = number;
 	}
-	
-	@Column(name="ddd", nullable = false)
+
+	@Column(name = "ddd", nullable = false)
 	public String getDdd() {
 		return ddd;
 	}
@@ -37,4 +40,14 @@ public class Phone extends AbstractEntity{
 		this.ddd = ddd;
 	}
 
+	/*
+	@ManyToOne(fetch = FetchType.EAGER)
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+*/
 }

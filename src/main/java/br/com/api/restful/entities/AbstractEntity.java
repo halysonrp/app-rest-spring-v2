@@ -22,24 +22,24 @@ import javax.persistence.PreUpdate;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class AbstractEntity {
 
-	private UUID id;
+	private Long id;
 	private Date created;
 	private Date modified;
-	
+
 	public AbstractEntity() {
 	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	public UUID getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(UUID id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	@Column(name="dt_created", nullable = false)
+	@Column(name = "dt_created", nullable = false)
 	public Date getCreated() {
 		return created;
 	}
@@ -48,7 +48,7 @@ public class AbstractEntity {
 		this.created = created;
 	}
 
-	@Column(name="dt_modified", nullable = false)
+	@Column(name = "dt_modified", nullable = false)
 	public Date getModified() {
 		return modified;
 	}
@@ -56,7 +56,7 @@ public class AbstractEntity {
 	public void setModified(Date modified) {
 		this.modified = modified;
 	}
-	
+
 	@PrePersist
 	public void prePersist() {
 		final Date newDate = new Date();
@@ -68,6 +68,5 @@ public class AbstractEntity {
 	public void preUpdate() {
 		this.modified = new Date();
 	}
-	
 
 }
