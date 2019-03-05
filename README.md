@@ -2,6 +2,7 @@
 
 - Spring Boot
 - Gradle
+- JPA
 
 ## Status Build
 
