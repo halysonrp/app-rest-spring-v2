@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import br.com.api.restful.entities.User;
 
 @Repository
-public interface IUserRepository extends CrudRepository<User, Long> {
+public interface IUserRepository extends JpaRepository<User, Long> {
 
 }

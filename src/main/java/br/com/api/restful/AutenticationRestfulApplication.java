@@ -42,7 +42,7 @@ public class AutenticationRestfulApplication {
 		phone.setNumber("998322120");
 		user = userRepository.save(user);
 		System.out.println("User id: "+user.getId());
-		//System.out.println("User Object: "+ userRepository.findById(1L));
+		System.out.println("User Object: "+ userRepository.findAll());
 
 	}
 

@@ -13,6 +13,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
+import org.hibernate.annotations.GenericGenerator;
+
 /**
  * @author Halyson
  *
@@ -22,7 +24,7 @@ import javax.persistence.PreUpdate;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class AbstractEntity {
 
-	private Long id;
+	private UUID id;
 	private Date created;
 	private Date modified;
 
@@ -30,12 +32,14 @@ public class AbstractEntity {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	public Long getId() {
+	//@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(generator = "UUID")
+	@GenericGenerator(name = "UUID",strategy = "org.hibernate.id.UUIDGenerator")
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 

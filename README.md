@@ -3,6 +3,8 @@
 - Spring Boot
 - Gradle
 - JPA
+- Hibernate
+- UUID
 
 ## Status Build
 
