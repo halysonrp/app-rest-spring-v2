@@ -1,7 +1,5 @@
 package br.com.api.restful;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -41,8 +39,8 @@ public class AutenticationRestfulApplication {
 		phone.setDdd("081");
 		phone.setNumber("998322120");
 		user = userRepository.save(user);
-		System.out.println("User id: "+user.getId());
-		System.out.println("User Object: "+ userRepository.findAll());
+		System.out.println("User id: " + user.getId());
+		System.out.println("User Object: " + userRepository.findAll());
 
 	}
 
