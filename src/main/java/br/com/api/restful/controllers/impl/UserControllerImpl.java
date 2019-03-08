@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/user")
 public final class UserControllerImpl {
-	
+
 	@GetMapping(value = "/{id}")
 	public String findUserById(@PathVariable("id") UUID id) {
 		return "User autentication:" + id;
