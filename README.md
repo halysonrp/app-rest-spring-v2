@@ -6,6 +6,7 @@
 - Hibernate
 - UUID
 - Integration Travis CI
+- Service
 
 ## Status Build Travis CI
 [![Build Status](https://travis-ci.org/halysonrp/app-rest-spring-v2.svg?branch=master)](https://travis-ci.org/halysonrp/app-rest-spring-v2)
