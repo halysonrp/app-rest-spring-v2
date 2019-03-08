@@ -1,4 +1,4 @@
-﻿package br.com.api.restful.config;
+package br.com.api.restful.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
