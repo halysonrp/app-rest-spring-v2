@@ -1,4 +1,4 @@
-package br.com.api.restful.controllers;
+ï»¿package br.com.api.restful.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,19 +14,19 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfig {
 
- @Bean
- public Docket api() {
- return new Docket(DocumentationType.SWAGGER_2).select()
-	.apis(RequestHandlerSelectors.basePackage("com.kazale.api"))
-	.paths(PathSelectors.any()).build()
-	.apiInfo(apiInfo());
- }
- 
- private ApiInfo apiInfo() {
- return new ApiInfoBuilder().title("Swagger API")
-	.description(
-	"Documentação da API de acesso aos endpoints com Swagger")
-	.version("1.0")
-	.build();
-  }
- } 
+	@Bean
+	public Docket api() {
+		return new Docket(DocumentationType.SWAGGER_2).select()
+				.apis(RequestHandlerSelectors.basePackage("br.com.api.restful"))
+				.paths(PathSelectors.any()).build()
+				.apiInfo(apiInfo());
+	}
+
+	private ApiInfo apiInfo() {
+		return new ApiInfoBuilder()
+				.title("Swagger API")
+				.description("DocumentaÃ§Ã£o da API de acesso aos endpoints com Swagger")
+				.version("1.0")
+				.build();
+	}
+}
