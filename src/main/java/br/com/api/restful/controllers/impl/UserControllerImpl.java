@@ -1,4 +1,4 @@
-package br.com.api.restful.controllers;
+package br.com.api.restful.controllers.impl;
 
 import java.util.UUID;
 
