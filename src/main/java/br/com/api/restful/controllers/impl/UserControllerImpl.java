@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.api.restful.Autowired;
 import br.com.api.restful.entities.User;
+import br.com.api.restful.repositories.IUserRepository;
 import br.com.api.restful.services.impl.UserServiceImpl;
 
 @RestController
@@ -22,6 +23,7 @@ public final class UserControllerImpl {
 	@GetMapping(value = "/{id}")
 	public String findUserById(@PathVariable("id") UUID id) {
 		List<User> users = this.userServiceImpl.findAll();
+		
 		return "User autentication qtd Entity:" + users.size();
 	}
 
