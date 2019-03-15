@@ -2,9 +2,9 @@ package br.com.api.restful.services.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.api.restful.Autowired;
 import br.com.api.restful.entities.User;
 import br.com.api.restful.repositories.IUserRepository;
 
