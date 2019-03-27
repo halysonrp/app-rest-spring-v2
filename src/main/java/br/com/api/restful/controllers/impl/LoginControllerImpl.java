@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.api.restful.dtos.LoginDto;
 import br.com.api.restful.entities.User;
 import br.com.api.restful.services.impl.UserServiceImpl;
 
 @RestController
-@RequestMapping("/api/user")
-public final class UserControllerImpl {
+@RequestMapping("/api/login")
+public final class LoginControllerImpl {
 
 	@Autowired
 	UserServiceImpl userServiceImpl;
@@ -30,11 +31,11 @@ public final class UserControllerImpl {
 		return users.get(0);
 	}
 
-	@PostMapping
-	public User insertUser(@RequestBody User user) {
+	/*@PostMapping
+	public User insertUser(@RequestBody LoginDto login) {
 		return this.userServiceImpl.saveUser(user);
 	}
-
+*/
 	@PutMapping
 	public User updateUser(@RequestBody User user) {
 		return this.userServiceImpl.saveUser(user);
