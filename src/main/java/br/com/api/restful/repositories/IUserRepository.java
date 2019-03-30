@@ -11,5 +11,8 @@ import br.com.api.restful.entities.User;
 public interface IUserRepository extends JpaRepository<User, Long> {
 
 	User findById(UUID id);
+	
+	User findByEmailAndPassword(String email, UUID password);
+	
 
 }

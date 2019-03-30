@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.api.restful.dtos.LoginDto;
 import br.com.api.restful.entities.User;
+import br.com.api.restful.services.impl.LoginServiceImpl;
 import br.com.api.restful.services.impl.UserServiceImpl;
 
 @RestController
@@ -23,13 +24,18 @@ public final class LoginControllerImpl {
 
 	@Autowired
 	UserServiceImpl userServiceImpl;
+	
+	@Autowired
+	LoginServiceImpl loginServiceImpl;
 
-	@GetMapping(value = "/{id}")
-	public User findUserById(@PathVariable("id") UUID id) {
-		List<User> users = this.userServiceImpl.findAll();
+	@GetMapping
+	public User login(@RequestBody LoginDto login) {
+		 User user = this.loginServiceImpl.login(login);
 
-		return users.get(0);
+		return user;
 	}
+	
+	
 
 	/*@PostMapping
 	public User insertUser(@RequestBody LoginDto login) {

@@ -3,6 +3,7 @@ package br.com.api.restful.dtos;
 import java.util.UUID;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 public class LoginDto {
 
@@ -10,6 +11,7 @@ public class LoginDto {
 	private UUID password;
 	
 	@Email
+	@NotEmpty(message = "CNPJ não pode ser vazio.")
 	public String getEmail() {
 		return email;
 	}
