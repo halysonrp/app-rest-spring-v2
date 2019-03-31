@@ -34,8 +34,7 @@ public class AutenticationRestfulApplication {
 		User user = new User();
 		user.setEmail("halysonrp@gmail.com");
 		user.setName("Halyson");
-		UUID uuid = UUID.randomUUID();
-		user.setPassword(uuid);
+		user.setPassword(UUID.randomUUID());
 		user.setToken("123456");
 		Phone phone = new Phone();
 		phone.setDdd("081");
