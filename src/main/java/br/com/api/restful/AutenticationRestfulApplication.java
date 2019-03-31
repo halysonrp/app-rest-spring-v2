@@ -1,5 +1,7 @@
 package br.com.api.restful;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -32,7 +34,8 @@ public class AutenticationRestfulApplication {
 		User user = new User();
 		user.setEmail("halysonrp@gmail.com");
 		user.setName("Halyson");
-		user.setPassword("123456");
+		UUID uuid = UUID.randomUUID();
+		user.setPassword(uuid);
 		user.setToken("123456");
 		Phone phone = new Phone();
 		phone.setDdd("081");

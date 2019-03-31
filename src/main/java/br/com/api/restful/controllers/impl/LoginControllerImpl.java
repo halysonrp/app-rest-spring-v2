@@ -1,56 +1,51 @@
 package br.com.api.restful.controllers.impl;
 
-import java.util.List;
-import java.util.UUID;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.api.restful.dtos.LoginDto;
 import br.com.api.restful.entities.User;
+import br.com.api.restful.responses.Response;
 import br.com.api.restful.services.impl.LoginServiceImpl;
 import br.com.api.restful.services.impl.UserServiceImpl;
 
 @RestController
 @RequestMapping("/api/login")
-public final class LoginControllerImpl {
+public final class LoginControllerImpl extends AbstractControllerImpl {
 
 	@Autowired
 	UserServiceImpl userServiceImpl;
-	
+
 	@Autowired
 	LoginServiceImpl loginServiceImpl;
 
 	@GetMapping
-	public User login(@RequestBody LoginDto login) {
-		 User user = this.loginServiceImpl.login(login);
+	public ResponseEntity<Response<User>> login(@Valid @RequestBody LoginDto login, BindingResult result) {
+		Response<User> response = new Response<User>();
 
-		return user;
-	}
-	
-	
-
-	/*@PostMapping
-	public User insertUser(@RequestBody LoginDto login) {
-		return this.userServiceImpl.saveUser(user);
-	}
-*/
-	@PutMapping
-	public User updateUser(@RequestBody User user) {
-		return this.userServiceImpl.saveUser(user);
+		if (result.hasErrors()) {
+			return isBadRequest(response, result);
+		}
+		User user = loginServiceImpl.login(login);
+		return validLogin(login, user, response);
 	}
 
-	@DeleteMapping(value = "/{id}")
-	public User deleteUser(@PathVariable("id") UUID id) {
-
-		return new User();
+	public ResponseEntity<Response<User>> validLogin(LoginDto login, User user, Response<User> response) {
+		if (user == null) {
+			return addResponseMessageError("Usuário e/ou senha inválidos", response, HttpStatus.BAD_REQUEST);
+		} else if (!login.getPassword().equals(user.getPassword())) {
+			return addResponseMessageError("Usuário e/ou senha inválidos", response, HttpStatus.UNAUTHORIZED);
+		} else {
+			response.setData(user);
+			return ResponseEntity.ok(response);
+		}
 	}
-
 }

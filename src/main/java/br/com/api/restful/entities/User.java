@@ -5,16 +5,20 @@ package br.com.api.restful.entities;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.UniqueElements;
 
 /**
  * @author Halyson
@@ -26,7 +30,7 @@ public class User extends AbstractEntity{
 
 	private String name;
 	private String email;
-	private String password;
+	private UUID password;
 	private Date lastLogin;
 	private String token;
 	
@@ -46,6 +50,7 @@ public class User extends AbstractEntity{
 
 	@Email
 	@Column(name="email", nullable = false, unique = true)
+	@UniqueElements(message="E-mail já existente")
 	public String getEmail() {
 		return email;
 	}
@@ -55,11 +60,13 @@ public class User extends AbstractEntity{
 	}
 
 	@Column(name="password", nullable = false)
-	public String getPassword() {
+	@GeneratedValue(generator = "UUID")
+	@GenericGenerator(name = "UUID",strategy = "org.hibernate.id.UUIDGenerator")
+	public UUID getPassword() {
 		return password;
 	}
 
-	public void setPassword(String password) {
+	public void setPassword(UUID password) {
 		this.password = password;
 	}
 	

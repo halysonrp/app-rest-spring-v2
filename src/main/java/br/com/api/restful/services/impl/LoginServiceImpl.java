@@ -11,23 +11,16 @@ import br.com.api.restful.repositories.IUserRepository;
 
 @Service
 public class LoginServiceImpl {
-	
+
 	@Autowired
 	IUserRepository userRepository;
-	
-	
+
 	public User findById(UUID id) {
-		return new User();	
+		return new User();
 	}
-	
+
 	public User login(LoginDto login) {
-		User user = userRepository.findByEmailAndPassword(login.getEmail(), login.getPassword());
-		if(user != null) {
-			
-		}
-		return user;
+		return userRepository.findByEmail(login.getEmail());
 	}
-	
-	
 
 }
