@@ -33,6 +33,12 @@ public final class UserControllerImpl extends AbstractControllerImpl {
 		response.setData(userServiceImpl.findById(id));
 		return ResponseEntity.ok(response);
 	}
+	@GetMapping(value = "/")
+	public ResponseEntity<Response<User>> findAllUsers() {
+		Response<User> response = new Response<User>();
+		response.setData(userServiceImpl.findAll().get(0));
+		return ResponseEntity.ok(response);
+	}
 	
 
 	@PostMapping

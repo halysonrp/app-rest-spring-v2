@@ -17,7 +17,7 @@ public class UserServiceImpl {
 	
 	
 	public User findById(UUID id) {
-		return new User();	
+		return userRepository.findById(id);
 	}
 	
 	public User saveUser(User user) {

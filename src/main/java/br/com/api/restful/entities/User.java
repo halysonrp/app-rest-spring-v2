@@ -5,20 +5,15 @@ package br.com.api.restful.entities;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
-
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.validator.constraints.UniqueElements;
 
 /**
  * @author Halyson
@@ -30,7 +25,7 @@ public class User extends AbstractEntity{
 
 	private String name;
 	private String email;
-	private UUID password;
+	private String password;
 	private Date lastLogin;
 	private String token;
 	
@@ -50,7 +45,6 @@ public class User extends AbstractEntity{
 
 	@Email
 	@Column(name="email", nullable = false, unique = true)
-	@UniqueElements(message="E-mail já existente")
 	public String getEmail() {
 		return email;
 	}
@@ -60,20 +54,20 @@ public class User extends AbstractEntity{
 	}
 
 	@Column(name="password", nullable = false)
-	@GeneratedValue(generator = "UUID")
-	@GenericGenerator(name = "UUID",strategy = "org.hibernate.id.UUIDGenerator")
-	public UUID getPassword() {
+	public String getPassword() {
 		return password;
 	}
 
-	public void setPassword(UUID password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
 	
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	public List<Phone> getPhones() {
 		return phones;
 	}
+	
+	
 	
 	public void setPhones(List<Phone> phones) {
 		this.phones = phones;
@@ -105,6 +99,7 @@ public class User extends AbstractEntity{
 		this.setCreated(newDate);
 		this.setModified(newDate);
 		this.setLastLogin(newDate);
+		this.setToken("123456");
 	}
 
 	@Override

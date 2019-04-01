@@ -13,14 +13,14 @@ import br.com.api.restful.responses.Response;
 public class AbstractControllerImpl {
 
 	public ResponseEntity<Response<User>> isBadRequest(Response<User> response, BindingResult result){
-		result.getAllErrors().forEach(error -> response.getErros().add(error.getDefaultMessage()));
+		result.getAllErrors().forEach(error -> response.getMensagem().add(error.getDefaultMessage()));
 		return ResponseEntity.badRequest().body(response);
 	}
 	
 	public ResponseEntity<Response<User>> addResponseMessageError(String message, Response<User> response, HttpStatus status) {
 		List<String> errors = new ArrayList<String>();
 		errors.add(message);
-		response.setErros(errors);
+		response.setMensagem(errors);
 		return ResponseEntity.status(status).body(response);
 	}
 }

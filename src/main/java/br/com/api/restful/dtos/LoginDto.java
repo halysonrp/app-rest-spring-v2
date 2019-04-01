@@ -1,17 +1,15 @@
 package br.com.api.restful.dtos;
 
-import java.util.UUID;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 public class LoginDto {
 
 	private String email;
-	private UUID password;
+	private String password;
 	
 	@Email
-	@NotEmpty(message = "CNPJ não pode ser vazio.")
+	@NotEmpty(message = "Usuário e/ou senha inválidos")
 	public String getEmail() {
 		return email;
 	}
@@ -19,11 +17,11 @@ public class LoginDto {
 		this.email = email;
 	}
 	
-	
-	public UUID getPassword() {
+	@NotEmpty(message = "Usuário e/ou senha inválidos")
+	public String getPassword() {
 		return password;
 	}
-	public void setPassword(UUID password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
 	
