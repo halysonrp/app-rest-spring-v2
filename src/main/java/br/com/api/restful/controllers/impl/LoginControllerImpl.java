@@ -14,18 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.api.restful.dtos.LoginDto;
 import br.com.api.restful.entities.User;
 import br.com.api.restful.responses.Response;
-import br.com.api.restful.services.impl.LoginServiceImpl;
-import br.com.api.restful.services.impl.UserServiceImpl;
+import br.com.api.restful.services.ILoginService;
 
 @RestController
 @RequestMapping("/api/login")
 public final class LoginControllerImpl extends AbstractControllerImpl {
 
-	@Autowired
-	UserServiceImpl userServiceImpl;
 
 	@Autowired
-	LoginServiceImpl loginServiceImpl;
+	ILoginService loginService;
 
 	@GetMapping
 	public ResponseEntity<Response<User>> login(@Valid @RequestBody LoginDto login, BindingResult result) {
@@ -34,7 +31,7 @@ public final class LoginControllerImpl extends AbstractControllerImpl {
 		if (result.hasErrors()) {
 			return isBadRequest(response, result);
 		}
-		User user = loginServiceImpl.login(login);
+		User user = loginService.login(login);
 		return validLogin(login, user, response);
 	}
 

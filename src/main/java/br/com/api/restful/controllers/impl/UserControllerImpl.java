@@ -18,25 +18,25 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.api.restful.entities.User;
 import br.com.api.restful.responses.Response;
-import br.com.api.restful.services.impl.UserServiceImpl;
+import br.com.api.restful.services.IUserService;
 
 @RestController
 @RequestMapping("/api/user")
 public final class UserControllerImpl extends AbstractControllerImpl {
 
 	@Autowired
-	UserServiceImpl userServiceImpl;
+	IUserService userService;
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Response<User>> findUserById(@PathVariable("id") UUID id) {
+	public ResponseEntity<Response<User>> findUserByIds(@PathVariable("id") UUID id) {
 		Response<User> response = new Response<User>();
-		response.setData(userServiceImpl.findById(id));
+		response.setData(userService.findById(id));
 		return ResponseEntity.ok(response);
 	}
 	@GetMapping(value = "/")
 	public ResponseEntity<Response<User>> findAllUsers() {
 		Response<User> response = new Response<User>();
-		response.setData(userServiceImpl.findAll().get(0));
+		response.setData(userService.findAll().get(0));
 		return ResponseEntity.ok(response);
 	}
 	
@@ -47,14 +47,14 @@ public final class UserControllerImpl extends AbstractControllerImpl {
 		if(result.hasErrors()) {
 			return isBadRequest(response, result);
 		}
-		response.setData(userServiceImpl.saveUser(user));
+		response.setData(userService.saveUser(user));
 		
 		return ResponseEntity.ok(response);
 	}
 
 	@PutMapping
 	public User updateUser(@RequestBody User user) {
-		return this.userServiceImpl.saveUser(user);
+		return this.userService.saveUser(user);
 	}
 
 	@DeleteMapping(value = "/{id}")
