@@ -3,7 +3,7 @@ package br.com.api.restful.dtos;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
-public class LoginDto {
+public class LoginDTO {
 
 	private String email;
 	private String password;

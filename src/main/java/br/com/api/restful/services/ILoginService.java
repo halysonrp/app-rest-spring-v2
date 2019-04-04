@@ -4,13 +4,13 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import br.com.api.restful.dtos.LoginDto;
+import br.com.api.restful.dtos.LoginDTO;
 import br.com.api.restful.entities.User;
 
-@Service
+
 public interface ILoginService {
 
 	User findById(UUID id);
 
-	User login(LoginDto login);
+	User login(LoginDTO login);
 }
