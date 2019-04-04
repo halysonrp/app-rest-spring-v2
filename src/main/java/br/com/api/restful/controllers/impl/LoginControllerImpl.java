@@ -15,6 +15,7 @@ import br.com.api.restful.dtos.LoginDto;
 import br.com.api.restful.entities.User;
 import br.com.api.restful.responses.Response;
 import br.com.api.restful.services.ILoginService;
+import br.com.api.restful.services.impl.LoginServiceImpl;
 
 @RestController
 @RequestMapping("/api/login")
@@ -22,7 +23,7 @@ public final class LoginControllerImpl extends AbstractControllerImpl {
 
 
 	@Autowired
-	ILoginService loginService;
+	LoginServiceImpl loginService;
 
 	@GetMapping
 	public ResponseEntity<Response<User>> login(@Valid @RequestBody LoginDto login, BindingResult result) {

@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import br.com.api.restful.entities.User;
 import br.com.api.restful.repositories.IUserRepository;
+import br.com.api.restful.services.impl.UserServiceImpl;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -26,18 +27,20 @@ public class UserServiceTest {
 	private IUserRepository userRepository;
 	
 	@Autowired
-	private IUserService userService;
+	private UserServiceImpl userService;
+	
+	private UUID idUser = UUID.randomUUID();
 
 	
 	@Before
 	public void setUp() throws Exception {
-		BDDMockito.given(this.userRepository.findById(UUID.randomUUID())).willReturn(new User());
+		BDDMockito.given(this.userRepository.findById(idUser)).willReturn(new User());
 		BDDMockito.given(this.userRepository.save(Mockito.any(User.class))).willReturn(new User());
 	}
 	
 	@Test
 	public void testFindById() {
-		User user = userService.findById(UUID.randomUUID());
+		User user = userService.findById(idUser);
 		assertNotNull(user);
 	}
 

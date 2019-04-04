@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.api.restful.entities.User;
 import br.com.api.restful.responses.Response;
-import br.com.api.restful.services.IUserService;
+import br.com.api.restful.services.impl.UserServiceImpl;
 
 @RestController
 @RequestMapping("/api/user")
 public final class UserControllerImpl extends AbstractControllerImpl {
 
 	@Autowired
-	IUserService userService;
+	UserServiceImpl userService;
 
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Response<User>> findUserByIds(@PathVariable("id") UUID id) {
