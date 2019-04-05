@@ -11,7 +11,7 @@ import br.com.api.restful.repositories.IUserRepository;
 import br.com.api.restful.services.ILoginService;
 
 @Service
-public class LoginServiceImpl extends AbstractService<User, IUserRepository> implements ILoginService {
+public class LoginServiceImpl implements ILoginService {
 
 	@Autowired
 	IUserRepository userRepository;

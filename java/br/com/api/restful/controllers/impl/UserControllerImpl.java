@@ -26,7 +26,7 @@ public final class UserControllerImpl extends AbstractControllerCRUD<UserDTO, Us
 	public ResponseEntity<Response<UserDTO>> get(@PathVariable("id") UUID id) {
 		Response<UserDTO> response = new Response<UserDTO>();
 		User user = service.findById(id);
-		response.setData(convertToDTO(user));
+		response.setData(convertToDTO(user, UserDTO.class));
 		return ResponseEntity.ok(response);
 	}
 	
@@ -34,49 +34,34 @@ public final class UserControllerImpl extends AbstractControllerCRUD<UserDTO, Us
 	public ResponseEntity<Response<UserDTO>> get() {
 		Response<UserDTO> response = new Response<UserDTO>();
 		User user = service.findAll().get(0);
-		response.setData(convertToDTO(user));
+		response.setData(convertToDTO(user, UserDTO.class));
 		return ResponseEntity.ok(response);
 	}
 	
 	@Override
-	public ResponseEntity<Response<UserDTO>> post(@Valid @RequestBody UserDTO userDto,  BindingResult result) {
-		Response<UserDTO> response  = new Response<UserDTO>();
-		User user = convertToEntity(userDto);
+	public ResponseEntity<Response<User>> post(@Valid @RequestBody UserDTO userDto,  BindingResult result) {
+		Response<User> response  = new Response<User>();
+		
 		if(result.hasErrors()) {
 			return isBadRequest(response, result);
 		}
-		response.setData(convertToDTO(service.save(user)));
+		User user = convertToEntity(userDto, User.class);
+		response.setData(service.save(user));
 		
 		return ResponseEntity.ok(response);
 	}
 
 	
 	@Override
-	public UserDTO put(@RequestBody UserDTO user) {
+	public User put(@RequestBody UserDTO user) {
 		//return service.saveUser(user);
-		return new UserDTO();
+		return new User();
 	}
 
 	@Override
-	public UserDTO delete(@PathVariable("id") UUID id) {
+	public User delete(@PathVariable("id") UUID id) {
 
-		return new UserDTO();
-	}
-	
-	@Override
-	public User convertToEntity(UserDTO dto) {
-		if(dto != null) {
-			return modelMapper.map(dto, User.class);
-		}
-		return null;
-	}
-
-	@Override
-	public UserDTO convertToDTO(User entity) {
-		if(entity != null) {
-			return modelMapper.map(entity, UserDTO.class);
-		}
-		return null;
+		return new User();
 	}
 	
 	

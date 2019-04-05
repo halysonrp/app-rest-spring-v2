@@ -19,21 +19,22 @@ import br.com.api.restful.services.impl.LoginServiceImpl;
 
 @RestController
 @RequestMapping("/api/login")
-public final class LoginControllerImpl extends AbstractController<UserDTO, User, LoginServiceImpl> {
+public final class LoginControllerImpl extends AbstractController<LoginDTO, User, LoginServiceImpl> {
 
 	@GetMapping
-	public ResponseEntity<Response<UserDTO>> login(@Valid @RequestBody LoginDTO login, BindingResult result) {
-		Response<UserDTO> response = new Response<UserDTO>();
+	public ResponseEntity<Response<User>> login(@Valid @RequestBody LoginDTO loginDto, BindingResult result) {
+		Response<User> response = new Response<User>();
 
 		if (result.hasErrors()) {
 			return isBadRequest(response, result);
 		}
 		//TODO convert DTO
-		User user = service.login(login);
-		return validLogin(login, new UserDTO(), response);
+		convertToEntity(loginDto, User.class);
+		User user = service.login(loginDto);
+		return validLogin(loginDto, user, response);
 	}
 
-	public ResponseEntity<Response<UserDTO>> validLogin(LoginDTO login, UserDTO user, Response<UserDTO> response) {
+	public ResponseEntity<Response<User>> validLogin(LoginDTO login, User user, Response<User> response) {
 		if (user == null) {
 			return addResponseMessageError("Usuário e/ou senha inválidos", response, HttpStatus.BAD_REQUEST);
 		} else if (!login.getPassword().equals(user.getPassword())) {
@@ -43,16 +44,5 @@ public final class LoginControllerImpl extends AbstractController<UserDTO, User,
 			return ResponseEntity.ok(response);
 		}
 	}
-	
-	@Override
-	public User convertToEntity(UserDTO dto) {
-		return modelMapper.map(dto, User.class);
-	}
-
-	@Override
-	public UserDTO convertToDTO(User entity) {
-		return modelMapper.map(entity, UserDTO.class);
-	}
-	
 	
 }

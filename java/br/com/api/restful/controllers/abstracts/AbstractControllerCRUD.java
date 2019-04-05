@@ -17,12 +17,12 @@ import br.com.api.restful.responses.Response;
 public abstract class AbstractControllerCRUD<DTO, Entity, Service> extends AbstractControllerList<DTO, Entity, Service> {
 	
 	@PostMapping
-	public abstract ResponseEntity<Response<DTO>> post(DTO dto,  BindingResult result);
+	public abstract ResponseEntity<Response<Entity>> post(DTO dto,  BindingResult result);
 
 	@PutMapping
-	public abstract DTO put( DTO dto);
+	public abstract Entity put(DTO dto);
 
 	@DeleteMapping(value = "/{id}")
-	public abstract DTO delete(UUID id);
+	public abstract Entity delete(UUID id);
 
 }

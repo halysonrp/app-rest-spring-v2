@@ -11,12 +11,12 @@ public abstract class AbstractService<Entity, Repository extends JpaRepository<E
 	Repository repository;
 	
 	
-	public Entity save(Entity user) {
-		return repository.save(user);
+	public Entity save(Entity entity) {
+		return repository.save(entity);
 	}
 	
-	public Entity update(Entity user) {
-		return repository.save(user);
+	public Entity update(Entity entity) {
+		return repository.save(entity);
 	}
 	
 	public List<Entity> findAll(){
