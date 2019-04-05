@@ -4,10 +4,7 @@ import br.com.api.restful.entities.User;
 
 
 public interface IUserService {
-	
-	User saveUser(User user);
-	
-	boolean deleteUser(User user);
+
 	
 
 }

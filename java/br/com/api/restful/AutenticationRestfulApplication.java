@@ -30,7 +30,7 @@ public class AutenticationRestfulApplication {
 	}
 
 	public void testePersistencia() {
-		/*User user = new User();
+		User user = new User();
 		user.setEmail("halysonrp@gmail.com");
 		user.setName("Halyson");
 		user.setPassword("123");
@@ -41,7 +41,7 @@ public class AutenticationRestfulApplication {
 		user = userRepository.save(user);
 		System.out.println("User id: " + user.getId());
 		System.out.println("User Object: " + userRepository.findAll());
-		 */
+		
 	}
 	
 	@Bean

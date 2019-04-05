@@ -1,4 +1,4 @@
-package br.com.api.restful.controllers.impl;
+package br.com.api.restful.controllers.impl.br.com.api.restful.controllers.impl;
 
 import javax.validation.Valid;
 
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.api.restful.controllers.abstracts.AbstractController;
 import br.com.api.restful.dtos.LoginDTO;
-import br.com.api.restful.dtos.UserDTO;
 import br.com.api.restful.entities.User;
 import br.com.api.restful.responses.Response;
 import br.com.api.restful.services.impl.LoginServiceImpl;
@@ -43,6 +42,7 @@ public final class LoginControllerImpl extends AbstractController<LoginDTO, User
 			response.setData(user);
 			return ResponseEntity.ok(response);
 		}
+		
 	}
 	
 }

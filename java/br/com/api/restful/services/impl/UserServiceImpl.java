@@ -9,7 +9,7 @@ import br.com.api.restful.repositories.IUserRepository;
 import br.com.api.restful.services.IUserService;
 
 @Service
-public abstract class UserServiceImpl extends AbstractService<User, IUserRepository> implements IUserService {
+public class UserServiceImpl extends AbstractService<User, IUserRepository> implements IUserService {
 	
 
 	public User findById(UUID id) {
@@ -23,6 +23,7 @@ public abstract class UserServiceImpl extends AbstractService<User, IUserReposit
 		}
 		return false;
 	}
+
 
 	
 
