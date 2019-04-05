@@ -6,6 +6,8 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 /**
  * @author Halyson
  *
@@ -42,6 +44,7 @@ public class Phone extends AbstractEntity{
 
 	
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonBackReference
 	public User getUser() {
 		return user;
 	}

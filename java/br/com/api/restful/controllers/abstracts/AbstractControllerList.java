@@ -10,9 +10,9 @@ import br.com.api.restful.responses.Response;
 public abstract class AbstractControllerList<DTO, Entity, Service> extends AbstractController<DTO, Entity, Service> {
 	
 	@GetMapping(value = "/{id}")
-	public abstract ResponseEntity<Response<DTO>> get(UUID id);
+	public abstract ResponseEntity<Response<Entity>> get(UUID id);
 	
 	@GetMapping(value = "/")
-	public abstract ResponseEntity<Response<DTO>> get();
+	public abstract ResponseEntity<Response<Entity>> get();
 	
 }

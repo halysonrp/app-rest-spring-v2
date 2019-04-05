@@ -15,6 +15,8 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 /**
  * @author Halyson
  *
@@ -23,6 +25,11 @@ import javax.validation.constraints.Email;
 @Table(name="user")
 public class User extends AbstractEntity{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3843046369566938600L;
+	
 	private String name;
 	private String email;
 	private String password;
@@ -62,7 +69,7 @@ public class User extends AbstractEntity{
 		this.password = password;
 	}
 	
-	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade=CascadeType.ALL)
 	public List<Phone> getPhones() {
 		return phones;
 	}

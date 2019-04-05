@@ -23,18 +23,18 @@ public final class UserControllerImpl extends AbstractControllerCRUD<UserDTO, Us
 
 	
 	@Override
-	public ResponseEntity<Response<UserDTO>> get(@PathVariable("id") UUID id) {
-		Response<UserDTO> response = new Response<UserDTO>();
+	public ResponseEntity<Response<User>> get(@PathVariable("id") UUID id) {
+		Response<User> response = new Response<User>();
 		User user = service.findById(id);
-		response.setData(convertToDTO(user, UserDTO.class));
+		response.setData(user);
 		return ResponseEntity.ok(response);
 	}
 	
 	@Override
-	public ResponseEntity<Response<UserDTO>> get() {
-		Response<UserDTO> response = new Response<UserDTO>();
+	public ResponseEntity<Response<User>> get() {
+		Response<User> response = new Response<User>();
 		User user = service.findAll().get(0);
-		response.setData(convertToDTO(user, UserDTO.class));
+		response.setData(user);
 		return ResponseEntity.ok(response);
 	}
 	
@@ -46,10 +46,13 @@ public final class UserControllerImpl extends AbstractControllerCRUD<UserDTO, Us
 			return isBadRequest(response, result);
 		}
 		User user = convertToEntity(userDto, User.class);
+		user.getPhones().forEach(phone -> phone.setUser(user));
 		response.setData(service.save(user));
 		
 		return ResponseEntity.ok(response);
 	}
+	
+	
 
 	
 	@Override

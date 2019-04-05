@@ -7,7 +7,6 @@ public class LoginDTO {
 
 	private String email;
 	private String password;
-	private String nome;
 	
 	@Email
 	@NotEmpty(message = "Usuário e/ou senha inválidos")
