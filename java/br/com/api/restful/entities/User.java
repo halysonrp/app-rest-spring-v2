@@ -15,8 +15,6 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 /**
  * @author Halyson
  *
@@ -24,11 +22,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Entity
 @Table(name="user")
 public class User extends AbstractEntity{
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3843046369566938600L;
 	
 	private String name;
 	private String email;
@@ -38,8 +31,6 @@ public class User extends AbstractEntity{
 	
 	private List<Phone> phones;
 
-	public User() {
-	}
 
 	@Column(name="name", nullable = false)
 	public String getName() {
@@ -73,9 +64,7 @@ public class User extends AbstractEntity{
 	public List<Phone> getPhones() {
 		return phones;
 	}
-	
-	
-	
+		
 	public void setPhones(List<Phone> phones) {
 		this.phones = phones;
 	}
@@ -102,17 +91,15 @@ public class User extends AbstractEntity{
 	@Override
 	@PrePersist
 	public void prePersist() {
-		final Date newDate = new Date();
-		this.setCreated(newDate);
-		this.setModified(newDate);
-		this.setLastLogin(newDate);
+		super.prePersist();
+		this.setLastLogin(new Date());
 		this.setToken("123456");
 	}
 
 	@Override
 	public String toString() {
-		return "User [name=" + name + ", email=" + email + ", password=" + password
-				+ ", getId()=" + getId() + ", getCreated()=" + getCreated() + ", getModified()=" + getModified() + "]";
+		return "User [name=" + name + ", email=" + email + ", password=" + password + ", lastLogin=" + lastLogin
+				+ ", token=" + token + ", phones=" + phones + "]";
 	}
 
 

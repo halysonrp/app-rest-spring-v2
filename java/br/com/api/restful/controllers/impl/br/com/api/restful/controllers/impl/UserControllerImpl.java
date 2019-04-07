@@ -1,4 +1,4 @@
-package br.com.api.restful.controllers.impl;
+package br.com.api.restful.controllers.impl.br.com.api.restful.controllers.impl;
 
 import java.util.UUID;
 
@@ -16,6 +16,7 @@ import br.com.api.restful.dtos.UserDTO;
 import br.com.api.restful.entities.User;
 import br.com.api.restful.responses.Response;
 import br.com.api.restful.services.impl.UserServiceImpl;
+import br.com.api.restful.utils.PasswordUtils;
 
 @RestController
 @RequestMapping("/api/user")
@@ -43,12 +44,13 @@ public final class UserControllerImpl extends AbstractControllerCRUD<UserDTO, Us
 		Response<User> response  = new Response<User>();
 		
 		if(result.hasErrors()) {
-			return isBadRequest(response, result);
+			return returnResponseStatusHttp(response, result);
 		}
 		User user = convertToEntity(userDto, User.class);
+		user.setPassword(PasswordUtils.generatePasswordBCrypt(user.getPassword()));
 		user.getPhones().forEach(phone -> phone.setUser(user));
-		response.setData(service.save(user));
 		
+		response.setData(service.save(user));
 		return ResponseEntity.ok(response);
 	}
 	

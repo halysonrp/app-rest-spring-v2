@@ -21,14 +21,12 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class AbstractEntity {
+public abstract class AbstractEntity {
 
 	private UUID id;
 	private Date created;
 	private Date modified;
 
-	public AbstractEntity() {
-	}
 
 	@Id
 	@GeneratedValue(generator = "UUID")

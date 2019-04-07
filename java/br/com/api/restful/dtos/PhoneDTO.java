@@ -11,9 +11,6 @@ public class PhoneDTO{
 	private String ddd;
 	private UserDTO user;
 
-	public PhoneDTO() {
-	}
-
 	public String getNumber() {
 		return number;
 	}

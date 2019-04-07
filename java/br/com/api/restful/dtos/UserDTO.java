@@ -16,10 +16,7 @@ public class UserDTO {
 	private Date modified;
 	
 	private List<PhoneDTO> phones;
-
-	public UserDTO() {
-	}
-
+	
 	
 	public UUID getId() {
 		return id;

@@ -15,6 +15,7 @@ import br.com.api.restful.dtos.LoginDTO;
 import br.com.api.restful.entities.User;
 import br.com.api.restful.responses.Response;
 import br.com.api.restful.services.impl.LoginServiceImpl;
+import br.com.api.restful.utils.PasswordUtils;
 
 @RestController
 @RequestMapping("/api/login")
@@ -25,10 +26,8 @@ public final class LoginControllerImpl extends AbstractController<LoginDTO, User
 		Response<User> response = new Response<User>();
 
 		if (result.hasErrors()) {
-			return isBadRequest(response, result);
+			return returnResponseStatusHttp(response, result);
 		}
-		//TODO convert DTO
-		convertToEntity(loginDto, User.class);
 		User user = service.login(loginDto);
 		return validLogin(loginDto, user, response);
 	}
@@ -36,7 +35,7 @@ public final class LoginControllerImpl extends AbstractController<LoginDTO, User
 	public ResponseEntity<Response<User>> validLogin(LoginDTO login, User user, Response<User> response) {
 		if (user == null) {
 			return addResponseMessageError("Usuário e/ou senha inválidos", response, HttpStatus.BAD_REQUEST);
-		} else if (!login.getPassword().equals(user.getPassword())) {
+		} else if (!PasswordUtils.validPassword(login.getPassword(), user.getPassword())){
 			return addResponseMessageError("Usuário e/ou senha inválidos", response, HttpStatus.UNAUTHORIZED);
 		} else {
 			response.setData(user);

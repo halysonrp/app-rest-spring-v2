@@ -19,7 +19,7 @@ public abstract class AbstractController<DTO, Entity, Service> {
 	@Autowired
 	protected ModelMapper modelMapper;
 
-	public ResponseEntity<Response<Entity>> isBadRequest(Response<Entity> response, BindingResult result) {
+	public ResponseEntity<Response<Entity>> returnResponseStatusHttp(Response<Entity> response, BindingResult result) {
 		result.getAllErrors().forEach(error -> response.getMensagem().add(error.getDefaultMessage()));
 		return ResponseEntity.badRequest().body(response);
 	}

@@ -21,9 +21,6 @@ public class Phone extends AbstractEntity{
 	private String ddd;
 	private User user;
 
-	public Phone() {
-	}
-
 	@Column(name = "number", nullable = false)
 	public String getNumber() {
 		return number;
