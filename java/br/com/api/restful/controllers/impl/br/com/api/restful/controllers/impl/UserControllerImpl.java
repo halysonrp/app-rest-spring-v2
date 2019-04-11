@@ -19,7 +19,7 @@ import br.com.api.restful.services.impl.UserServiceImpl;
 import br.com.api.restful.utils.PasswordUtils;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/user")
 public final class UserControllerImpl extends AbstractControllerCRUD<UserDTO, User, UserServiceImpl> {
 
 	

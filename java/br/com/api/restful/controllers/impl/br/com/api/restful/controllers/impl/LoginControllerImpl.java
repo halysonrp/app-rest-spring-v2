@@ -18,7 +18,7 @@ import br.com.api.restful.services.impl.LoginServiceImpl;
 import br.com.api.restful.utils.PasswordUtils;
 
 @RestController
-@RequestMapping("/api/login")
+@RequestMapping("/login")
 public final class LoginControllerImpl extends AbstractController<LoginDTO, User, LoginServiceImpl> {
 
 	@GetMapping
