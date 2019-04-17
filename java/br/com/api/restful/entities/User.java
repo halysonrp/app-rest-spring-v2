@@ -3,6 +3,7 @@
  */
 package br.com.api.restful.entities;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -15,13 +16,18 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * @author Halyson
  *
  */
 @Entity
 @Table(name="user")
-public class User extends AbstractEntity{
+public class User extends AbstractEntity implements UserDetails{
 	
 	private String name;
 	private String email;
@@ -30,6 +36,7 @@ public class User extends AbstractEntity{
 	private String token;
 	
 	private List<Phone> phones;
+	private Collection<? extends GrantedAuthority> authorities;
 
 
 	@Column(name="name", nullable = false)
@@ -86,6 +93,43 @@ public class User extends AbstractEntity{
 	public void setToken(String token) {
 		this.token = token;
 	}
+	
+	@Override
+	@JsonIgnore
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return authorities;
+	}
+
+	@Override
+	@JsonIgnore
+	public String getUsername() {
+		return email;
+	}
+
+	@Override
+	@JsonIgnore
+	public boolean isAccountNonExpired() {
+		return false;
+	}
+
+	@Override
+	@JsonIgnore
+	public boolean isAccountNonLocked() {
+		return false;
+	}
+
+	@Override
+	@JsonIgnore
+	public boolean isCredentialsNonExpired() {
+		return false;
+	}
+
+	@Override
+	@JsonIgnore
+	public boolean isEnabled() {
+		return false;
+	}
+
 
 	
 	@Override
