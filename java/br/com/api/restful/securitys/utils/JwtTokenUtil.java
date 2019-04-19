@@ -93,9 +93,9 @@ public class JwtTokenUtil {
 	 * @param userDetails
 	 * @return String
 	 */
-	public String obterToken(UserDetails userDetails) {
+	public String obterToken(String email) {
 		Map<String, Object> claims = new HashMap<>();
-		claims.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
+		claims.put(CLAIM_KEY_USERNAME, email);
 		claims.put(CLAIM_KEY_CREATED, new Date());
 
 		return gerarToken(claims);

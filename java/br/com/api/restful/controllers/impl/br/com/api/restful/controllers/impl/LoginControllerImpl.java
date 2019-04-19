@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.api.restful.controllers.abstracts.AbstractController;
 import br.com.api.restful.dtos.LoginDTO;
 import br.com.api.restful.entities.User;
-import br.com.api.restful.responses.Response;
 import br.com.api.restful.services.impl.LoginServiceImpl;
 import br.com.api.restful.utils.PasswordUtils;
 
@@ -22,24 +21,23 @@ import br.com.api.restful.utils.PasswordUtils;
 public final class LoginControllerImpl extends AbstractController<LoginDTO, User, LoginServiceImpl> {
 
 	@GetMapping
-	public ResponseEntity<Response<User>> login(@Valid @RequestBody LoginDTO loginDto, BindingResult result) {
-		Response<User> response = new Response<User>();
+	public ResponseEntity<User> login(@Valid @RequestBody LoginDTO loginDto, BindingResult result) {
+		User response = new User();
 
 		if (result.hasErrors()) {
 			return returnResponseStatusHttp(response, result);
 		}
 		User user = service.login(loginDto);
-		return validLogin(loginDto, user, response);
+		return validLogin(loginDto, user);
 	}
 
-	public ResponseEntity<Response<User>> validLogin(LoginDTO login, User user, Response<User> response) {
+	public ResponseEntity<User> validLogin(LoginDTO login, User user) {
 		if (user == null) {
-			return addResponseMessageError("Usuário e/ou senha inválidos", response, HttpStatus.BAD_REQUEST);
+			return addResponseMessageError("Usuário e/ou senha inválidos", user, HttpStatus.BAD_REQUEST);
 		} else if (!PasswordUtils.validPassword(login.getPassword(), user.getPassword())){
-			return addResponseMessageError("Usuário e/ou senha inválidos", response, HttpStatus.UNAUTHORIZED);
+			return addResponseMessageError("Usuário e/ou senha inválidos", user, HttpStatus.UNAUTHORIZED);
 		} else {
-			response.setData(user);
-			return ResponseEntity.ok(response);
+			return ResponseEntity.ok(user);
 		}
 		
 	}

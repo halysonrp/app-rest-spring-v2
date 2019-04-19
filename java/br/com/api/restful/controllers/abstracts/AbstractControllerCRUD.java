@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
-import br.com.api.restful.responses.Response;
+import br.com.api.restful.entities.AbstractEntity;
 
-public abstract class AbstractControllerCRUD<DTO, Entity, Service> extends AbstractControllerList<DTO, Entity, Service> {
+public abstract class AbstractControllerCRUD<DTO,  Entity extends AbstractEntity, Service> extends AbstractControllerList<DTO, Entity, Service> {
 	
 	@PostMapping
-	public abstract ResponseEntity<Response<Entity>> post(DTO dto,  BindingResult result);
+	public abstract ResponseEntity<Entity> post(DTO dto,  BindingResult result);
 
 	@PutMapping
 	public abstract Entity put(DTO dto);

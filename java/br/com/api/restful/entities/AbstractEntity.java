@@ -1,6 +1,8 @@
 package br.com.api.restful.entities;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -11,6 +13,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -26,6 +29,7 @@ public abstract class AbstractEntity {
 	private UUID id;
 	private Date created;
 	private Date modified;
+	private List<String> mensagem = new ArrayList<String>();
 
 
 	@Id
@@ -56,6 +60,16 @@ public abstract class AbstractEntity {
 	public void setModified(Date modified) {
 		this.modified = modified;
 	}
+	
+	@Transient
+	public List<String> getMensagem() {
+		return mensagem;
+	}
+
+	public void setMensagem(List<String> mensagem) {
+		this.mensagem = mensagem;
+	}
+
 
 	@PrePersist
 	public void prePersist() {
@@ -68,5 +82,6 @@ public abstract class AbstractEntity {
 	public void preUpdate() {
 		this.modified = new Date();
 	}
+	
 
 }

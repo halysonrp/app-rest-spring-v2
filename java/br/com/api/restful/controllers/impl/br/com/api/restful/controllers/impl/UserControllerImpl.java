@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.api.restful.controllers.abstracts.AbstractControllerCRUD;
 import br.com.api.restful.dtos.UserDTO;
 import br.com.api.restful.entities.User;
-import br.com.api.restful.responses.Response;
 import br.com.api.restful.services.impl.UserServiceImpl;
 import br.com.api.restful.utils.PasswordUtils;
 
@@ -24,24 +23,18 @@ public final class UserControllerImpl extends AbstractControllerCRUD<UserDTO, Us
 
 	
 	@Override
-	public ResponseEntity<Response<User>> get(@PathVariable("id") UUID id) {
-		Response<User> response = new Response<User>();
-		User user = service.findById(id);
-		response.setData(user);
-		return ResponseEntity.ok(response);
+	public ResponseEntity<User> get(@PathVariable("id") UUID id) {
+		return ResponseEntity.ok(service.findById(id));
 	}
 	
 	@Override
-	public ResponseEntity<Response<User>> get() {
-		Response<User> response = new Response<User>();
-		User user = service.findAll().get(0);
-		response.setData(user);
-		return ResponseEntity.ok(response);
+	public ResponseEntity<User> get() {
+		return ResponseEntity.ok(service.findAll().get(0));
 	}
 	
 	@Override
-	public ResponseEntity<Response<User>> post(@Valid @RequestBody UserDTO userDto,  BindingResult result) {
-		Response<User> response  = new Response<User>();
+	public ResponseEntity<User> post(@Valid @RequestBody UserDTO userDto,  BindingResult result) {
+		User response  = new User();
 		
 		if(result.hasErrors()) {
 			return returnResponseStatusHttp(response, result);
@@ -50,7 +43,7 @@ public final class UserControllerImpl extends AbstractControllerCRUD<UserDTO, Us
 		user.setPassword(PasswordUtils.generatePasswordBCrypt(user.getPassword()));
 		user.getPhones().forEach(phone -> phone.setUser(user));
 		
-		response.setData(service.save(user));
+		response = service.save(user);
 		return ResponseEntity.ok(response);
 	}
 	

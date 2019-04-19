@@ -9,9 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 
-import br.com.api.restful.responses.Response;
+import br.com.api.restful.entities.AbstractEntity;
 
-public abstract class AbstractController<DTO, Entity, Service> {
+public abstract class AbstractController<DTO, Entity extends AbstractEntity, Service> {
 
 	@Autowired
 	protected Service service;
@@ -19,17 +19,17 @@ public abstract class AbstractController<DTO, Entity, Service> {
 	@Autowired
 	protected ModelMapper modelMapper;
 
-	public ResponseEntity<Response<Entity>> returnResponseStatusHttp(Response<Entity> response, BindingResult result) {
-		result.getAllErrors().forEach(error -> response.getMensagem().add(error.getDefaultMessage()));
-		return ResponseEntity.badRequest().body(response);
+	public ResponseEntity<Entity> returnResponseStatusHttp(Entity entity, BindingResult result) {
+		result.getAllErrors().forEach(error -> entity.getMensagem().add(error.getDefaultMessage()));
+		return ResponseEntity.badRequest().body(entity);
 	}
 
-	public ResponseEntity<Response<Entity>> addResponseMessageError(String message, Response<Entity> response,
+	public ResponseEntity<Entity> addResponseMessageError(String message, Entity entity,
 			HttpStatus status) {
 		List<String> errors = new ArrayList<String>();
 		errors.add(message);
-		response.setMensagem(errors);
-		return ResponseEntity.status(status).body(response);
+		entity.setMensagem(errors);
+		return ResponseEntity.status(status).body(entity);
 	}
 
 	public Entity convertToEntity(DTO dto, Class<Entity> entityClass) {

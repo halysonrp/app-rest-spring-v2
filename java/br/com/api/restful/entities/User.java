@@ -3,6 +3,7 @@
  */
 package br.com.api.restful.entities;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -40,6 +41,7 @@ public class User extends AbstractEntity implements UserDetails{
 	
 	private List<Phone> phones;
 	private Collection<? extends GrantedAuthority> authorities;
+	
 
 
 	@Column(name="name", nullable = false)
@@ -131,7 +133,7 @@ public class User extends AbstractEntity implements UserDetails{
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
-
+	
 	@Override
 	@JsonIgnore
 	@Transient
@@ -148,6 +150,7 @@ public class User extends AbstractEntity implements UserDetails{
 		this.setLastLogin(new Date());
 		this.setToken("123456");
 	}
+
 
 	@Override
 	public String toString() {
