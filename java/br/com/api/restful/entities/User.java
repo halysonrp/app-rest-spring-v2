@@ -14,6 +14,7 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -28,6 +29,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name="user")
 public class User extends AbstractEntity implements UserDetails{
+	
+	private static final long serialVersionUID = -9053595790639409685L;
 	
 	private String name;
 	private String email;
@@ -96,38 +99,44 @@ public class User extends AbstractEntity implements UserDetails{
 	
 	@Override
 	@JsonIgnore
+	@Transient
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return authorities;
 	}
 
 	@Override
 	@JsonIgnore
+	@Transient
 	public String getUsername() {
 		return email;
 	}
 
 	@Override
 	@JsonIgnore
+	@Transient
 	public boolean isAccountNonExpired() {
-		return false;
+		return true;
 	}
 
 	@Override
 	@JsonIgnore
+	@Transient
 	public boolean isAccountNonLocked() {
-		return false;
+		return true;
 	}
 
 	@Override
 	@JsonIgnore
+	@Transient
 	public boolean isCredentialsNonExpired() {
-		return false;
+		return true;
 	}
 
 	@Override
 	@JsonIgnore
+	@Transient
 	public boolean isEnabled() {
-		return false;
+		return true;
 	}
 
 

@@ -25,6 +25,7 @@ import br.com.api.restful.entities.User;
 import br.com.api.restful.responses.Response;
 import br.com.api.restful.securitys.utils.JwtTokenUtil;
 import br.com.api.restful.services.impl.LoginServiceImpl;
+import br.com.api.restful.utils.PasswordUtils;
 
 @RequestMapping("/auth")
 @RestController
@@ -59,8 +60,7 @@ public class AuthControllerImpl extends AbstractController<LoginDTO, User, Login
 		UserDetails userDetail = userDetailsService.loadUserByUsername(authDTO.getEmail());
 		
 		String token = jwtTokenUtil.obterToken(userDetail);
-		User user = service.login(authDTO);
-		response.setData(user);
+		response.setData(userDetail);
 		
 		return ResponseEntity.ok(response);
 	}
