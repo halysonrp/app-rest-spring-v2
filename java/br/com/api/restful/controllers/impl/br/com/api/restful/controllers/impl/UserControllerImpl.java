@@ -51,9 +51,8 @@ public final class UserControllerImpl extends AbstractControllerCRUD<UserDTO, Us
 
 	
 	@Override
-	public User put(@RequestBody UserDTO user) {
-		//return service.saveUser(user);
-		return new User();
+	public User put(@RequestBody UserDTO userDTO) {
+		return service.save(convertToEntity(userDTO, User.class));
 	}
 
 	@Override
