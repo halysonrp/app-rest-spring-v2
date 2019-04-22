@@ -6,7 +6,9 @@ import java.util.stream.Collectors;
 
 public class BusinessException extends RuntimeException {
 
-    List<String> messages = new ArrayList<>();
+	private static final long serialVersionUID = 571793320849663039L;
+	
+	List<String> messages = new ArrayList<>();
 
     public void addMessages(String message) {
         messages.add(message);

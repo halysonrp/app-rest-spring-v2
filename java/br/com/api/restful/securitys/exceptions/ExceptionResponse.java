@@ -11,17 +11,17 @@ public class ExceptionResponse implements Serializable {
 
 	private static final long serialVersionUID = -2376172753753126433L;
 	
-	private String message;
+	private String mensagem;
 
 	public ExceptionResponse(String message) {
-		this.message = message;
+		this.mensagem = message;
 	}
 
 	public String getMessage() {
-		return message;
+		return mensagem;
 	}
 
-	public void setMessage(String message) {
-		this.message = message;
+	public void setMessage(String mensagem) {
+		this.mensagem = mensagem;
 	}
 }

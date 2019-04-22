@@ -30,7 +30,15 @@ public class JwtAuthenticationManager implements AuthenticationManager {
 	    //@Autowired
 	    //private PasswordEncoder passwordEncoder;
 
-
+		/*
+		 * Caso o token não exista, retornar erro com status apropriado com a mensagem "Não autorizado".
+			Caso o token exista, buscar o usuário pelo id passado no path e comparar se o token no modelo é igual ao token passado no header.
+			Caso não seja o mesmo token, retornar erro com status apropriado e mensagem "Não autorizado"
+			Caso seja o mesmo token, verificar se o último login foi a MENOS que 30 minutos atrás. Caso não seja a MENOS que 30 minutos atrás, retornar erro com status apropriado com mensagem "Sessão inválida".
+			Caso tudo esteja ok, retornar o usuário no mesmo formato do retorno do Login.
+			(non-Javadoc)
+		 * @see org.springframework.security.authentication.AuthenticationManager#authenticate(org.springframework.security.core.Authentication)
+		 */
 	    @Override
 	    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 	        String principal = (String) authentication.getPrincipal();
