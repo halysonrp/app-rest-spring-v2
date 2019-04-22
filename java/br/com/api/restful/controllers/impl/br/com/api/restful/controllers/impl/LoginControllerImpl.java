@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.api.restful.controllers.abstracts.AbstractController;
+import br.com.api.restful.controllers.abstracts.AbstractControllerImpl;
 import br.com.api.restful.dtos.LoginDTO;
 import br.com.api.restful.entities.User;
 import br.com.api.restful.services.impl.LoginServiceImpl;
@@ -18,7 +18,7 @@ import br.com.api.restful.utils.PasswordUtils;
 
 @RestController
 @RequestMapping("/login")
-public final class LoginControllerImpl extends AbstractController<LoginDTO, User, LoginServiceImpl> {
+public final class LoginControllerImpl extends AbstractControllerImpl<LoginDTO, User, LoginServiceImpl> {
 
 	@GetMapping
 	public ResponseEntity<User> login(@Valid @RequestBody LoginDTO loginDto, BindingResult result) {

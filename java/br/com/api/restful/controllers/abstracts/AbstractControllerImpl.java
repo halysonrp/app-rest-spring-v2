@@ -11,7 +11,7 @@ import org.springframework.validation.BindingResult;
 
 import br.com.api.restful.entities.AbstractEntity;
 
-public abstract class AbstractController<DTO, Entity extends AbstractEntity, Service> {
+public abstract class AbstractControllerImpl<DTO, Entity extends AbstractEntity, Service> {
 
 	@Autowired
 	protected Service service;

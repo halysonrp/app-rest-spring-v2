@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import br.com.api.restful.entities.AbstractEntity;
 
-public abstract class AbstractControllerList<DTO,  Entity extends AbstractEntity, Service> extends AbstractController<DTO,  Entity, Service> {
+public abstract class AbstractControllerListImpl<DTO,  Entity extends AbstractEntity, Service> extends AbstractControllerImpl<DTO,  Entity, Service> {
 	
 	@GetMapping(value = "/{id}")
 	public abstract ResponseEntity<Entity> get(UUID id);

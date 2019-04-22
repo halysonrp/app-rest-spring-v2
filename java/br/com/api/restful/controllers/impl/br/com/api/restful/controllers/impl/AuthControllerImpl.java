@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.api.restful.controllers.abstracts.AbstractController;
+import br.com.api.restful.controllers.abstracts.AbstractControllerImpl;
 import br.com.api.restful.dtos.LoginDTO;
 import br.com.api.restful.entities.User;
 import br.com.api.restful.securitys.utils.JwtTokenUtil;
@@ -24,7 +24,7 @@ import br.com.api.restful.services.impl.LoginServiceImpl;
 
 @RequestMapping("/auth")
 @RestController
-public class AuthControllerImpl extends AbstractController<LoginDTO, User, LoginServiceImpl> {
+public class AuthControllerImpl extends AbstractControllerImpl<LoginDTO, User, LoginServiceImpl> {
 
 	@Autowired(required = true)
 	private AuthenticationManager authenticationManager;

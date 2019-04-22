@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.api.restful.controllers.abstracts.AbstractControllerCRUD;
+import br.com.api.restful.controllers.abstracts.AbstractControllerCRUDImpl;
 import br.com.api.restful.dtos.UserDTO;
 import br.com.api.restful.entities.User;
 import br.com.api.restful.services.impl.UserServiceImpl;
@@ -19,7 +19,7 @@ import br.com.api.restful.utils.PasswordUtils;
 
 @RestController
 @RequestMapping("/user")
-public final class UserControllerImpl extends AbstractControllerCRUD<UserDTO, User, UserServiceImpl> {
+public final class UserControllerImpl extends AbstractControllerCRUDImpl<UserDTO, User, UserServiceImpl> {
 
 	
 	@Override

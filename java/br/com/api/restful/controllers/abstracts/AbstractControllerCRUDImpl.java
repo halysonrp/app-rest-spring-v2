@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import br.com.api.restful.entities.AbstractEntity;
 
-public abstract class AbstractControllerCRUD<DTO,  Entity extends AbstractEntity, Service> extends AbstractControllerList<DTO, Entity, Service> {
+public abstract class AbstractControllerCRUDImpl<DTO,  Entity extends AbstractEntity, Service> extends AbstractControllerListImpl<DTO, Entity, Service> {
 	
 	@PostMapping
 	public abstract ResponseEntity<Entity> post(DTO dto,  BindingResult result);

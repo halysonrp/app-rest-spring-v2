@@ -32,6 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
+	/*
 	@Autowired
 	public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
 		authenticationManagerBuilder.parentAuthenticationManager(authenticationManagerBean());
@@ -47,6 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+	*/
 
 	@Bean
 	public JwtAuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
