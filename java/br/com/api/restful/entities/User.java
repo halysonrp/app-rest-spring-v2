@@ -29,9 +29,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table(name="user")
-public class User extends AbstractEntity implements UserDetails{
-	
-	private static final long serialVersionUID = -9053595790639409685L;
+public class User extends AbstractEntity{
 	
 	private String name;
 	private String email;
@@ -40,7 +38,6 @@ public class User extends AbstractEntity implements UserDetails{
 	private String token;
 	
 	private List<Phone> phones;
-	private Collection<? extends GrantedAuthority> authorities;
 	
 
 
@@ -98,50 +95,6 @@ public class User extends AbstractEntity implements UserDetails{
 	public void setToken(String token) {
 		this.token = token;
 	}
-	
-	@Override
-	@JsonIgnore
-	@Transient
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return authorities;
-	}
-
-	@Override
-	@JsonIgnore
-	@Transient
-	public String getUsername() {
-		return email;
-	}
-
-	@Override
-	@JsonIgnore
-	@Transient
-	public boolean isAccountNonExpired() {
-		return true;
-	}
-
-	@Override
-	@JsonIgnore
-	@Transient
-	public boolean isAccountNonLocked() {
-		return true;
-	}
-
-	@Override
-	@JsonIgnore
-	@Transient
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
-	
-	@Override
-	@JsonIgnore
-	@Transient
-	public boolean isEnabled() {
-		return true;
-	}
-
-
 	
 	@Override
 	@PrePersist

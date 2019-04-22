@@ -20,11 +20,12 @@ import br.com.api.restful.controllers.abstracts.AbstractControllerImpl;
 import br.com.api.restful.dtos.LoginDTO;
 import br.com.api.restful.entities.User;
 import br.com.api.restful.securitys.utils.JwtTokenUtil;
-import br.com.api.restful.services.impl.LoginServiceImpl;
+import br.com.api.restful.services.IAuthService;
+import br.com.api.restful.services.impl.AuthServiceImpl;
 
 @RequestMapping("/auth")
 @RestController
-public class AuthControllerImpl extends AbstractControllerImpl<LoginDTO, User, LoginServiceImpl> {
+public class AuthControllerImpl extends AbstractControllerImpl<LoginDTO, User, IAuthService> {
 
 	@Autowired(required = true)
 	private AuthenticationManager authenticationManager;
@@ -49,7 +50,7 @@ public class AuthControllerImpl extends AbstractControllerImpl<LoginDTO, User, L
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		user = service.login(authDTO);
+		user = service.findByEmail(authDTO.getEmail());
 		user.setToken(jwtTokenUtil.obterToken(authDTO.getEmail()));
 		return ResponseEntity.ok(user);
 	}

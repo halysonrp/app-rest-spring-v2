@@ -7,15 +7,23 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-//import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
-//import org.springframework.security.oauth2.provider.OAuth2Authentication;
-//import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.stereotype.Component;
 
 import br.com.api.restful.entities.User;
+import br.com.api.restful.services.IAuthService;
+import br.com.api.restful.services.impl.AuthServiceImpl;
+import br.com.api.restful.services.impl.UserServiceImpl;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Component
@@ -26,9 +34,18 @@ public class JwtAuthenticationManager implements AuthenticationManager {
 
 	    //@Autowired
 	    //private AuthService authService;
-
+	
+		@Autowired
+		private UserServiceImpl userService;
+		
+		@Autowired
+		private IAuthService loginService;
+		
 	    //@Autowired
-	    //private PasswordEncoder passwordEncoder;
+	   // private PasswordEncoder passwordEncoder;
+	
+		//@Autowired
+	  //  private TokenStore tokenStore;
 
 		/*
 		 * Caso o token não exista, retornar erro com status apropriado com a mensagem "Não autorizado".
@@ -44,31 +61,28 @@ public class JwtAuthenticationManager implements AuthenticationManager {
 	        String principal = (String) authentication.getPrincipal();
 	        String password = null;
 	        String token = null;
-
-	        Optional<User> optionalUser;
+	        User user = null;
+	        
+	        
 	        if (authentication instanceof UsernamePasswordAuthenticationToken) {
-	           // optionalUser = userService.findOneByEmail(principal);
+	        	user = loginService.findByEmail(principal);
 	            password = (String) authentication.getCredentials();
 	        } else {
 	            token = principal;
-	          //  OAuth2Authentication auth2Authentication = tokenStore.readAuthentication(principal);
-	           // UUID id = UUID.fromString((String) auth2Authentication.getPrincipal());
-	            //optionalUser = userService.findById(id);
+	           // OAuth2Authentication auth2Authentication = tokenStore.readAuthentication(principal);
+	          //  UUID id = UUID.fromString((String) auth2Authentication.getPrincipal());
+	           // user = userService.findById(id);
 	        }
-
-	        
-	        if (false) {
-	            User user = optionalUser.get();
+   
+	        if (user != null) {
 	            if (user.getToken() == null) {
-	               // new UnauthorizedUserException("Não autorizado");
-	            	
+	                new UnauthorizedUserException("Não autorizado");   	
 	            }
-	            if (password == null) {
+	            if (password != null) {
 	                if (token != null) {
 	                    user.setToken(token);
 	                }
-	                //user.setLastLoginDate(LocalDateTime.now());
-	               // userService.save(user);
+	                userService.save(user);
 	                return new UsernamePasswordAuthenticationToken(user.getId().toString(), user.getPassword(),
 	                        authentication.getAuthorities());
 	            }

@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.api.restful.controllers.abstracts.AbstractControllerImpl;
 import br.com.api.restful.dtos.LoginDTO;
 import br.com.api.restful.entities.User;
-import br.com.api.restful.services.impl.LoginServiceImpl;
+import br.com.api.restful.services.IAuthService;
+import br.com.api.restful.services.impl.AuthServiceImpl;
 import br.com.api.restful.utils.PasswordUtils;
 
 @RestController
 @RequestMapping("/login")
-public final class LoginControllerImpl extends AbstractControllerImpl<LoginDTO, User, LoginServiceImpl> {
+public final class LoginControllerImpl extends AbstractControllerImpl<LoginDTO, User, IAuthService> {
 
 	@GetMapping
 	public ResponseEntity<User> login(@Valid @RequestBody LoginDTO loginDto, BindingResult result) {
@@ -27,7 +28,7 @@ public final class LoginControllerImpl extends AbstractControllerImpl<LoginDTO, 
 		if (result.hasErrors()) {
 			return returnResponseStatusHttp(response, result);
 		}
-		User user = service.login(loginDto);
+		User user = service.findByEmail(loginDto.getEmail());
 		return validLogin(loginDto, user);
 	}
 

@@ -9,13 +9,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import br.com.api.restful.entities.User;
 import br.com.api.restful.securitys.utils.JwtTokenUtil;
+import br.com.api.restful.services.IAuthService;
 
 
 
@@ -23,9 +26,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
 	private static final String AUTH_HEADER = "Authorization";
 	private static final String BEARER_PREFIX = "Bearer ";
-
+	
 	@Autowired
-	private UserDetailsService userDetailsService;
+	private IAuthService loginService;
 
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
@@ -34,17 +37,18 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws ServletException, IOException {
 		String token = request.getHeader(AUTH_HEADER);
+		
 		if (token != null && token.startsWith(BEARER_PREFIX)) {
 			token = token.substring(BEARER_PREFIX.length());
 		}
-		String username = jwtTokenUtil.getUsernameFromToken(token);
+		String email = jwtTokenUtil.getEmailFromToken(token);
 
-		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-			UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+		if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+			User user = loginService.findByEmail(email);
 
 			if (jwtTokenUtil.tokenValido(token)) {
 				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-						userDetails, null, userDetails.getAuthorities());
+						user.getEmail(), user.getPassword());
 				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 			}

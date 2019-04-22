@@ -12,21 +12,13 @@ import br.com.api.restful.services.IUserService;
 public class UserServiceImpl extends AbstractService<User, IUserRepository> implements IUserService {
 	
 
+	@Override
 	public User findById(UUID id) {
 		return repository.findById(id);
 	}
 	
-	public boolean deleteUser(User user) {
-		repository.delete(user);
-		if(findById(user.getId()) != null) {
-			return true;
-		}
-		return false;
+	@Override
+	public User findByEmail(String email) {
+		return repository.findByEmail(email);
 	}
-
-
-	
-
-	
-
 }

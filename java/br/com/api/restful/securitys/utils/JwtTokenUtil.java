@@ -26,20 +26,20 @@ public class JwtTokenUtil {
 	private Long expiration;
 
 	/**
-	 * Obtém o username (email) contido no token JWT.
+	 * Obtem o email contido no token JWT.
 	 * 
 	 * @param token
 	 * @return String
 	 */
-	public String getUsernameFromToken(String token) {
-		String username;
+	public String getEmailFromToken(String token) {
+		String email;
 		try {
 			Claims claims = getClaimsFromToken(token);
-			username = claims.getSubject();
+			email = claims.getSubject();
 		} catch (Exception e) {
-			username = null;
+			email = null;
 		}
-		return username;
+		return email;
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class JwtTokenUtil {
 		try {
 			Claims claims = getClaimsFromToken(token);
 			claims.put(CLAIM_KEY_CREATED, new Date());
-			refreshedToken = gerarToken(claims);
+			refreshedToken = generateToken(claims);
 		} catch (Exception e) {
 			refreshedToken = null;
 		}
@@ -84,7 +84,7 @@ public class JwtTokenUtil {
 	 * @return boolean
 	 */
 	public boolean tokenValido(String token) {
-		return !tokenExpirado(token);
+		return !tokenExpired(token);
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class JwtTokenUtil {
 		claims.put(CLAIM_KEY_USERNAME, email);
 		claims.put(CLAIM_KEY_CREATED, new Date());
 
-		return gerarToken(claims);
+		return generateToken(claims);
 	}
 
 	private Claims getClaimsFromToken(String token) {
@@ -116,7 +116,7 @@ public class JwtTokenUtil {
 	 * 
 	 * @return Date
 	 */
-	private Date gerarDataExpiracao() {
+	private Date generateDateExpiration() {
 		return new Date(System.currentTimeMillis() + expiration * 1000);
 	}
 
@@ -126,12 +126,12 @@ public class JwtTokenUtil {
 	 * @param token
 	 * @return boolean
 	 */
-	private boolean tokenExpirado(String token) {
-		Date dataExpiracao = this.getExpirationDateFromToken(token);
-		if (dataExpiracao == null) {
+	private boolean tokenExpired(String token) {
+		Date dateExpired = this.getExpirationDateFromToken(token);
+		if (dateExpired == null) {
 			return false;
 		}
-		return dataExpiracao.before(new Date());
+		return dateExpired.before(new Date());
 	}
 
 	/**
@@ -140,8 +140,8 @@ public class JwtTokenUtil {
 	 * @param claims
 	 * @return String
 	 */
-	private String gerarToken(Map<String, Object> claims) {
-		return Jwts.builder().setClaims(claims).setExpiration(gerarDataExpiracao())
+	private String generateToken(Map<String, Object> claims) {
+		return Jwts.builder().setClaims(claims).setExpiration(generateDateExpiration())
 				.signWith(SignatureAlgorithm.HS512, secret).compact();
 	}
 
