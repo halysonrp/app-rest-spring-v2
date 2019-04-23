@@ -8,17 +8,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import br.com.api.restful.dtos.LoginDTO;
 import br.com.api.restful.entities.User;
 import br.com.api.restful.securitys.utils.JwtTokenUtil;
 import br.com.api.restful.services.IAuthService;
+import br.com.api.restful.utils.PasswordUtils;
 
 
 
@@ -40,6 +45,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 		
 		if (token != null && token.startsWith(BEARER_PREFIX)) {
 			token = token.substring(BEARER_PREFIX.length());
+			
 		}
 		String email = jwtTokenUtil.getEmailFromToken(token);
 

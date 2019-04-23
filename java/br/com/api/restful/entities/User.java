@@ -87,7 +87,7 @@ public class User extends AbstractEntity{
 		this.lastLogin = lastLogin;
 	}
 
-	@Column(name="token", nullable = false)
+	@Column(name="token")
 	public String getToken() {
 		return token;
 	}

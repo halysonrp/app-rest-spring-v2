@@ -4,11 +4,14 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +25,7 @@ import br.com.api.restful.entities.User;
 import br.com.api.restful.securitys.utils.JwtTokenUtil;
 import br.com.api.restful.services.IAuthService;
 import br.com.api.restful.services.impl.AuthServiceImpl;
+import br.com.api.restful.utils.PasswordUtils;
 
 @RequestMapping("/auth")
 @RestController
@@ -53,5 +57,14 @@ public class AuthControllerImpl extends AbstractControllerImpl<LoginDTO, User, I
 		user = service.findByEmail(authDTO.getEmail());
 		user.setToken(jwtTokenUtil.obterToken(authDTO.getEmail()));
 		return ResponseEntity.ok(user);
+	}
+	
+	public User validAuth(LoginDTO login, User user) throws AuthenticationException {
+		if (user == null) {
+			throw new AccessDeniedException("Usuario e/ou senha invalidos");
+		} else if (!PasswordUtils.validPassword(login.getPassword(), user.getPassword())){
+			throw new UnauthorizedUserException("Usuario e/ou senha invalidos");
+		}
+		return user;
 	}
 }
