@@ -83,7 +83,7 @@ public class JwtTokenUtil {
 	 * @param token
 	 * @return boolean
 	 */
-	public boolean tokenValido(String token) {
+	public boolean tokenValid(String token) {
 		return !tokenExpired(token);
 	}
 

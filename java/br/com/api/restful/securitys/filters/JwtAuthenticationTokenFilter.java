@@ -30,29 +30,29 @@ import br.com.api.restful.utils.PasswordUtils;
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
 	private static final String AUTH_HEADER = "Authorization";
-	private static final String BEARER_PREFIX = "Bearer ";
+	//private static final String BEARER_PREFIX = "Bearer ";
 	
 	@Autowired
 	private IAuthService loginService;
 
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
-
+		
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws ServletException, IOException {
 		String token = request.getHeader(AUTH_HEADER);
 		
-		if (token != null && token.startsWith(BEARER_PREFIX)) {
-			token = token.substring(BEARER_PREFIX.length());
+		//if (token != null && token.startsWith(BEARER_PREFIX)) {
+			//token = token.substring(BEARER_PREFIX.length());
 			
-		}
+		//}
 		String email = jwtTokenUtil.getEmailFromToken(token);
 
 		if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 			User user = loginService.findByEmail(email);
 
-			if (jwtTokenUtil.tokenValido(token)) {
+			if (jwtTokenUtil.tokenValid(token)) {
 				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
 						user.getEmail(), user.getPassword());
 				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

@@ -10,10 +10,6 @@ public abstract class AbstractService<Entity, Repository extends JpaRepository<E
 	@Autowired
 	Repository repository;
 
-	public Entity save(Entity entity) {
-		return repository.save(entity);
-	}
-
 	public Entity update(Entity entity) {
 		return repository.save(entity);
 	}

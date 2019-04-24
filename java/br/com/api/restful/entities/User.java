@@ -101,7 +101,6 @@ public class User extends AbstractEntity{
 	public void prePersist() {
 		super.prePersist();
 		this.setLastLogin(new Date());
-		this.setToken("123456");
 	}
 
 

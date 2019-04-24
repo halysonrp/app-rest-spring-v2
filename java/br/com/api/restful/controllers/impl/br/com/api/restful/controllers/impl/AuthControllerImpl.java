@@ -59,12 +59,5 @@ public class AuthControllerImpl extends AbstractControllerImpl<LoginDTO, User, I
 		return ResponseEntity.ok(user);
 	}
 	
-	public User validAuth(LoginDTO login, User user) throws AuthenticationException {
-		if (user == null) {
-			throw new AccessDeniedException("Usuario e/ou senha invalidos");
-		} else if (!PasswordUtils.validPassword(login.getPassword(), user.getPassword())){
-			throw new UnauthorizedUserException("Usuario e/ou senha invalidos");
-		}
-		return user;
-	}
+	
 }
