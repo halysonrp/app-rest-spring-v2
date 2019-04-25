@@ -5,6 +5,7 @@ import java.util.UUID;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,13 +39,14 @@ public final class UserControllerImpl extends AbstractControllerCRUDImpl<UserDTO
 		User response  = new User();
 		
 		if(result.hasErrors()) {
-			return returnResponseStatusHttp(response, result);
+			returnResponseStatusHttp(response, result);
 		}
 		User user = convertToEntity(userDto, User.class);
 		user.setPassword(PasswordUtils.generatePasswordBCrypt(user.getPassword()));
 		user.getPhones().forEach(phone -> phone.setUser(user));
 		
 		response = service.save(user);
+		
 		return ResponseEntity.ok(response);
 	}
 	

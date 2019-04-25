@@ -7,9 +7,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
 import org.springframework.validation.BindingResult;
 
 import br.com.api.restful.entities.AbstractEntity;
+import br.com.api.restful.securitys.exceptions.BusinessException;
 
 public abstract class AbstractControllerImpl<DTO, Entity extends AbstractEntity, Service> {
 
@@ -19,9 +21,11 @@ public abstract class AbstractControllerImpl<DTO, Entity extends AbstractEntity,
 	@Autowired
 	protected ModelMapper modelMapper;
 
-	public ResponseEntity<Entity> returnResponseStatusHttp(Entity entity, BindingResult result) {
-		result.getAllErrors().forEach(error -> entity.getMensagem().add(error.getDefaultMessage()));
-		return ResponseEntity.badRequest().body(entity);
+	public void returnResponseStatusHttp(Entity entity, BindingResult result) {
+		BusinessException businessException = new BusinessException();
+		result.getAllErrors().forEach(error -> businessException.addMessages(error.getDefaultMessage()));
+		//return ResponseEntity.badRequest().body(entity);
+		throw  businessException;
 	}
 
 	public ResponseEntity<Entity> addResponseMessageError(String message, Entity entity,

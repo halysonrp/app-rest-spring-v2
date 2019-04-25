@@ -55,7 +55,7 @@ public class AuthControllerImpl extends AbstractControllerImpl<LoginDTO, User, I
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
 		user = service.findByEmail(authDTO.getEmail());
-		user.setToken(jwtTokenUtil.obterToken(authDTO.getEmail()));
+		//user.setToken(jwtTokenUtil.obterToken(authDTO.getEmail()));
 		return ResponseEntity.ok(user);
 	}
 	

@@ -4,6 +4,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotBlank;
+
 public class UserDTO {
 	
 	private UUID id;
@@ -36,7 +40,7 @@ public class UserDTO {
 		this.name = name;
 	}
 
-	
+	@NotNull(message= "Campo Email obrigatório.")
 	public String getEmail() {
 		return email;
 	}
@@ -44,7 +48,8 @@ public class UserDTO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
+	
+	@NotNull(message= "Campo Password obrigatório.")
 	public String getPassword() {
 		return password;
 	}

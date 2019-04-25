@@ -1,41 +1,27 @@
 package br.com.api.restful.securitys.filters;
 
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.token.Token;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
-import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import br.com.api.restful.dtos.LoginDTO;
 import br.com.api.restful.entities.User;
 import br.com.api.restful.securitys.utils.JwtTokenUtil;
 import br.com.api.restful.services.IAuthService;
-import br.com.api.restful.services.impl.AuthServiceImpl;
 import br.com.api.restful.services.impl.UserServiceImpl;
 import br.com.api.restful.utils.PasswordUtils;
-
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.Optional;
-import java.util.UUID;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 @Component
@@ -99,7 +85,19 @@ public class JwtAuthenticationManager implements AuthenticationManager {
    
 	        if (user != null) {
 	            if (password != null) {
-	            	validLogin(user, password, token);
+	            	if (!PasswordUtils.validPassword(password, user.getPassword()) && !password.equals(user.getPassword())){
+	    				throw new UnauthorizedUserException("Usuario e/ou senha invalidos");
+	    			}
+	            	if (user.getToken() == null) {
+	    				throw new UnauthorizedUserException("Não autorizado");
+	    			} else if (password != null && token != null) {
+	    				if (!token.equals(user.getToken())) {
+	    					throw new UnauthorizedUserException("Não autorizado");
+	    				} else if (!jwtTokenUtil.tokenValid(token)) {
+	    					throw new AccessDeniedException("Sessão inválida");
+	    				}
+	    			}
+	            	
 	                //user.setToken(token);
 	                //userService.save(user);
 	                return new UsernamePasswordAuthenticationToken(user.getId().toString(), user.getPassword(),
@@ -109,7 +107,7 @@ public class JwtAuthenticationManager implements AuthenticationManager {
 	        throw new AccessDeniedException("Usuario e/ou senha invalidos");
 	    }
 	    
-		public void validToken(User user, String password, String token) throws AuthenticationException {
+		public void validToken(User user, String password, String token) {
 			if (user.getToken() == null) {
 				throw new UnauthorizedUserException("Não autorizado");
 			} else if (password != null && token != null) {
@@ -125,7 +123,7 @@ public class JwtAuthenticationManager implements AuthenticationManager {
 			Caso o e-mail não exista, retornar erro com status apropriado mais a mensagem "Usuário e/ou senha inválidos" - OK
 			Caso o e-mail exista mas a senha não bata, retornar o status apropriado 401 mais a mensagem "Usuário e/ou senha inválidos"
 		*/
-		public User validLogin(User user, String password, String token) throws AuthenticationException {
+		public User validLogin(User user, String password, String token) {
 			if (!PasswordUtils.validPassword(password, user.getPassword()) && !password.equals(user.getPassword())){
 				throw new UnauthorizedUserException("Usuario e/ou senha invalidos");
 			}

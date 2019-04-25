@@ -26,7 +26,7 @@ public final class LoginControllerImpl extends AbstractControllerImpl<LoginDTO, 
 		User response = new User();
 
 		if (result.hasErrors()) {
-			return returnResponseStatusHttp(response, result);
+			returnResponseStatusHttp(response, result);
 		}
 		User user = service.findByEmail(loginDto.getEmail());
 		return validLogin(loginDto, user);

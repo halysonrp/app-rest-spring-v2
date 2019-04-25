@@ -16,6 +16,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @RestControllerAdvice
 @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -54,6 +58,7 @@ public class CustomExceptionHandler {
 	}
 
 	@ExceptionHandler(Exception.class)
+	@ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
 	public ExceptionResponse handler(Exception ex) {
 		return new ExceptionResponse("Erro inesperado");
 	}
@@ -67,5 +72,26 @@ public class CustomExceptionHandler {
 	public ExceptionResponse handler(HibernateOptimisticLockingFailureException ex) {
 		return new ExceptionResponse(ex.getMessage());
 	}
+	
+	@ExceptionHandler(value = HttpClientErrorException.class)
+    public ExceptionResponse httpClientErrorExceptionHandler(HttpClientErrorException ex) {
+        return new ExceptionResponse(ex.getMessage());
+    }
+
+    @ExceptionHandler(value = HttpServerErrorException.class)
+    public ExceptionResponse httpServerErrorExceptionHandler(HttpServerErrorException ex) {
+        return new ExceptionResponse(ex.getMessage());
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionResponse methodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
+        return new ExceptionResponse("Tipo inválido");
+    }
+
+    @ExceptionHandler(HttpStatusCodeException.class)
+    private ExceptionResponse handler(HttpStatusCodeException ex) {
+    	return new ExceptionResponse(ex.getStatusText());
+    }
 
 }
