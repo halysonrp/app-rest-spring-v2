@@ -19,6 +19,6 @@ public abstract class AbstractControllerCRUDImpl<DTO,  Entity extends AbstractEn
 	public abstract Entity put(DTO dto);
 
 	@DeleteMapping(value = "/{id}")
-	public abstract Entity delete(UUID id);
+	public abstract void delete(UUID id);
 
 }

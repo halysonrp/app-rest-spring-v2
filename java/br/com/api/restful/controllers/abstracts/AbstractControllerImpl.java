@@ -21,10 +21,9 @@ public abstract class AbstractControllerImpl<DTO, Entity extends AbstractEntity,
 	@Autowired
 	protected ModelMapper modelMapper;
 
-	public void returnResponseStatusHttp(Entity entity, BindingResult result) {
+	public void generateResponseError(BindingResult result) {
 		BusinessException businessException = new BusinessException();
 		result.getAllErrors().forEach(error -> businessException.addMessages(error.getDefaultMessage()));
-		//return ResponseEntity.badRequest().body(entity);
 		throw  businessException;
 	}
 

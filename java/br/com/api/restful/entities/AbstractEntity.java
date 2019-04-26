@@ -16,6 +16,7 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.jpa.domain.AbstractPersistable;
 
 /**
  * @author Halyson
@@ -24,7 +25,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class AbstractEntity {
+public abstract class AbstractEntity extends AbstractPersistable<UUID> {
 
 	private UUID id;
 	private Date created;

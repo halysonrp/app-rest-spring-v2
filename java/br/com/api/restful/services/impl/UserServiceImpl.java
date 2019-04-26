@@ -4,17 +4,17 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.api.restful.entities.User;
 import br.com.api.restful.repositories.IUserRepository;
-import br.com.api.restful.securitys.utils.JwtTokenUtil;
 import br.com.api.restful.services.IUserService;
 
 @Service
 public class UserServiceImpl extends AbstractService<User, IUserRepository> implements IUserService {
 	
-	//@Autowired
-	//private JwtTokenUtil jwtToken;
+	@Autowired
+	private IUserRepository userRepository;
 	
 	@Override
 	public User findById(UUID id) {
@@ -27,8 +27,18 @@ public class UserServiceImpl extends AbstractService<User, IUserRepository> impl
 	}
 	
 	
+	@Override
+	@Transactional
+	public void delete(UUID id) {
+		userRepository.deleteById(id);
+	}
 	
+	@Override
 	public User save(User user) {
+		if(user.getId() != null) {
+			User oldUser = repository.findById(user.getId());
+			user.setCreated(oldUser.getCreated());
+		}
 		//user.setToken(jwtToken.obterToken(user.getEmail()));
 		return repository.save(user);
 	}

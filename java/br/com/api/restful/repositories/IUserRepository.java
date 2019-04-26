@@ -13,6 +13,8 @@ public interface IUserRepository extends JpaRepository<User, Long> {
 	User findById(UUID id);
 	
 	User findByEmail(String email);
+
+	void deleteById(UUID id);
 	
 
 }

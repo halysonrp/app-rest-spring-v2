@@ -15,6 +15,6 @@ public interface IGenericService<Entity> {
 	
 	User update(Entity entity);
 	
-	void delete(Entity entity);
+	void delete(UUID id);
 	
 }

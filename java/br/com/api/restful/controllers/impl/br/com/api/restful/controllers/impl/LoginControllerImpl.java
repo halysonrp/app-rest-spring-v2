@@ -23,10 +23,8 @@ public final class LoginControllerImpl extends AbstractControllerImpl<LoginDTO, 
 
 	@GetMapping
 	public ResponseEntity<User> login(@Valid @RequestBody LoginDTO loginDto, BindingResult result) {
-		User response = new User();
-
 		if (result.hasErrors()) {
-			returnResponseStatusHttp(response, result);
+			generateResponseError(result);
 		}
 		User user = service.findByEmail(loginDto.getEmail());
 		return validLogin(loginDto, user);
