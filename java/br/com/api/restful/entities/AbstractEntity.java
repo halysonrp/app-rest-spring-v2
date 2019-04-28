@@ -70,7 +70,11 @@ public abstract class AbstractEntity {
 	public void setMensagem(List<String> mensagem) {
 		this.mensagem = mensagem;
 	}
-
+	
+	@Transient
+	public Boolean isNew() {
+		return id == null;
+	}
 
 	@PrePersist
 	public void prePersist() {

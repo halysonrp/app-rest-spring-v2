@@ -78,7 +78,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and() //define o handler que será responsável pela resposta dos acessos não autorizados
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-				.antMatchers("/auth").permitAll()
+				.antMatchers("/login").permitAll()
 				.antMatchers(HttpMethod.POST,"/user").permitAll()
 				.anyRequest().authenticated(); //Permite todas as requisições dos endpoints do controller Auth sem necessitar de autenticação
 		httpSecurity.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class); //define a classe responsável por onbter o token da requisição e verificar se ele é válido 

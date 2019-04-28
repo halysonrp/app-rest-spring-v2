@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.api.restful.entities.User;
 import br.com.api.restful.repositories.IUserRepository;
+import br.com.api.restful.securitys.exceptions.BusinessException;
 import br.com.api.restful.securitys.utils.JwtTokenUtil;
 import br.com.api.restful.services.IUserService;
 
@@ -39,11 +40,23 @@ public class UserServiceImpl extends AbstractService<User, IUserRepository> impl
 	
 	@Override
 	public User save(User user) {
-		if(user.getId() != null) {
+		if(user.isNew()) {
+			emailValidation(user.getEmail());
+		}else {
 			User oldUser = repository.findById(user.getId());
 			user.setCreated(oldUser.getCreated());
 		}
 		user.setToken(jwtToken.obterToken(user.getEmail()));
 		return repository.save(user);
 	}
+	
+	  public void emailValidation(String email) {
+		  User user = repository.findByEmail(email);
+		  if(user != null) {
+			  BusinessException businessException = new BusinessException();
+			  businessException.addMessages("E-mail já existente");
+			  throw businessException;
+		  }
+		    
+	  }
 }
