@@ -7,13 +7,13 @@ import java.io.Serializable;
 
 @Data
 @EqualsAndHashCode
-public class ExceptionResponse implements Serializable {
+public class responseException implements Serializable {
 
 	private static final long serialVersionUID = -2376172753753126433L;
 	
 	private String mensagem;
 
-	public ExceptionResponse(String message) {
+	public responseException(String message) {
 		this.mensagem = message;
 	}
 

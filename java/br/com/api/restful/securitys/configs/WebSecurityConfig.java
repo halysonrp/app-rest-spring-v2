@@ -3,6 +3,7 @@ package br.com.api.restful.securitys.configs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -77,9 +78,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and() //define o handler que será responsável pela resposta dos acessos não autorizados
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-				.antMatchers("/auth/**").permitAll().anyRequest().authenticated(); //Permite todas as requisições dos endpoints do controller Auth sem necessitar de autenticação
+				.antMatchers("/auth").permitAll()
+				.antMatchers(HttpMethod.POST,"/user").permitAll()
+				.anyRequest().authenticated(); //Permite todas as requisições dos endpoints do controller Auth sem necessitar de autenticação
 		httpSecurity.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class); //define a classe responsável por onbter o token da requisição e verificar se ele é válido 
 		httpSecurity.headers().cacheControl();
 	}
+	
 
 }

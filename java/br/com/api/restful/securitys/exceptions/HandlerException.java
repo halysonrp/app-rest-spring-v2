@@ -23,75 +23,75 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 @RestControllerAdvice
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class CustomExceptionHandler {
+public class HandlerException {
 
 	@ExceptionHandler(BusinessException.class)
-	public ExceptionResponse handler(BusinessException ex) {
-		return new ExceptionResponse(ex.messages());
+	public responseException handler(BusinessException ex) {
+		return new responseException(ex.messages());
 	}
-
+	
 	@ExceptionHandler(DataIntegrityViolationException.class)
-	public ExceptionResponse handler(DataIntegrityViolationException ex) {
-		return new ExceptionResponse(ex.getMessage());
+	public responseException handler(DataIntegrityViolationException ex) {
+		return new responseException(ex.getMessage());
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ExceptionResponse handler(MethodArgumentNotValidException ex) {
+	public responseException handler(MethodArgumentNotValidException ex) {
 		BindingResult bindingResult = ex.getBindingResult();
 		List<FieldError> fieldErrors = bindingResult.getFieldErrors();
 
 		String mensagensFormatadas = fieldErrors.stream().map(FieldError::getDefaultMessage)
 				.collect(joining(System.lineSeparator()));
-		return new ExceptionResponse(mensagensFormatadas);
+		return new responseException(mensagensFormatadas);
 	}
 
 	@ExceptionHandler(UnauthorizedUserException.class)
 	@ResponseStatus(HttpStatus.UNAUTHORIZED)
-	public ExceptionResponse handler(UnauthorizedUserException ex) {
-		return new ExceptionResponse(ex.getMessage());
+	public responseException handler(UnauthorizedUserException ex) {
+		return new responseException(ex.getMessage());
 	}
 
 	@ExceptionHandler(AccessDeniedException.class)
 	@ResponseStatus(HttpStatus.UNAUTHORIZED)
-	public ExceptionResponse handler(AccessDeniedException ex) {
-		return new ExceptionResponse(ex.getMessage());
+	public responseException handler(AccessDeniedException ex) {
+		return new responseException(ex.getMessage());
 	}
 
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
-	public ExceptionResponse handler(Exception ex) {
-		return new ExceptionResponse("Erro inesperado");
+	public responseException handler(Exception ex) {
+		return new responseException("Erro inesperado");
 	}
 
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-	public ExceptionResponse handler(HttpRequestMethodNotSupportedException ex) {
-		return new ExceptionResponse(ex.getMessage());
+	public responseException handler(HttpRequestMethodNotSupportedException ex) {
+		return new responseException(ex.getMessage());
 	}
 
 	@ExceptionHandler(HibernateOptimisticLockingFailureException.class)
-	public ExceptionResponse handler(HibernateOptimisticLockingFailureException ex) {
-		return new ExceptionResponse(ex.getMessage());
+	public responseException handler(HibernateOptimisticLockingFailureException ex) {
+		return new responseException(ex.getMessage());
 	}
 	
 	@ExceptionHandler(value = HttpClientErrorException.class)
-    public ExceptionResponse httpClientErrorExceptionHandler(HttpClientErrorException ex) {
-        return new ExceptionResponse(ex.getMessage());
+    public responseException httpClientErrorExceptionHandler(HttpClientErrorException ex) {
+        return new responseException(ex.getMessage());
     }
 
     @ExceptionHandler(value = HttpServerErrorException.class)
-    public ExceptionResponse httpServerErrorExceptionHandler(HttpServerErrorException ex) {
-        return new ExceptionResponse(ex.getMessage());
+    public responseException httpServerErrorExceptionHandler(HttpServerErrorException ex) {
+        return new responseException(ex.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ExceptionResponse methodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
-        return new ExceptionResponse("Tipo inválido");
+    public responseException methodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
+        return new responseException("Tipo inválido");
     }
 
     @ExceptionHandler(HttpStatusCodeException.class)
-    private ExceptionResponse handler(HttpStatusCodeException ex) {
-    	return new ExceptionResponse(ex.getStatusText());
+    private responseException handler(HttpStatusCodeException ex) {
+    	return new responseException(ex.getStatusText());
     }
 
 }

@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.api.restful.entities.User;
 import br.com.api.restful.repositories.IUserRepository;
+import br.com.api.restful.securitys.utils.JwtTokenUtil;
 import br.com.api.restful.services.IUserService;
 
 @Service
@@ -15,6 +16,9 @@ public class UserServiceImpl extends AbstractService<User, IUserRepository> impl
 	
 	@Autowired
 	private IUserRepository userRepository;
+	
+	@Autowired
+	JwtTokenUtil jwtToken;
 	
 	@Override
 	public User findById(UUID id) {
@@ -39,7 +43,7 @@ public class UserServiceImpl extends AbstractService<User, IUserRepository> impl
 			User oldUser = repository.findById(user.getId());
 			user.setCreated(oldUser.getCreated());
 		}
-		//user.setToken(jwtToken.obterToken(user.getEmail()));
+		user.setToken(jwtToken.obterToken(user.getEmail()));
 		return repository.save(user);
 	}
 }
