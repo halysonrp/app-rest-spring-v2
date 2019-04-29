@@ -27,13 +27,6 @@ public abstract class AbstractControllerImpl<DTO, Entity extends AbstractEntity,
 		throw  businessException;
 	}
 
-	public ResponseEntity<Entity> addResponseMessageError(String message, Entity entity,
-			HttpStatus status) {
-		List<String> errors = new ArrayList<String>();
-		errors.add(message);
-		entity.setMensagem(errors);
-		return ResponseEntity.status(status).body(entity);
-	}
 
 	public Entity convertToEntity(DTO dto, Class<Entity> entityClass) {
 		if(dto != null && entityClass != null) {
