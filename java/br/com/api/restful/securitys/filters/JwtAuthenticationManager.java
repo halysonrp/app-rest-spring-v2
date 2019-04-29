@@ -85,18 +85,7 @@ public class JwtAuthenticationManager implements AuthenticationManager {
    
 	        if (user != null) {
 	            if (password != null) {
-	            	if (!PasswordUtils.validPassword(password, user.getPassword()) && !password.equals(user.getPassword())){
-	    				throw new UnauthorizedUserException("Usuario e/ou senha invalidos");
-	    			}
-	            	if (user.getToken() == null) {
-	    				throw new UnauthorizedUserException("Não autorizado");
-	    			} else if (password != null && token != null) {
-	    				if (!token.equals(user.getToken())) {
-	    					throw new UnauthorizedUserException("Não autorizado");
-	    				} else if (!jwtTokenUtil.tokenValid(token)) {
-	    					throw new AccessDeniedException("Sessão inválida");
-	    				}
-	    			}
+	            	validLogin(user, password, token);
 	            	
 	                //user.setToken(token);
 	                //userService.save(user);

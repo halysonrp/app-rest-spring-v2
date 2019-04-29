@@ -18,6 +18,8 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 /**
  * @author Halyson
  *
@@ -72,6 +74,7 @@ public abstract class AbstractEntity {
 	}
 	
 	@Transient
+	@JsonBackReference
 	public Boolean isNew() {
 		return id == null;
 	}

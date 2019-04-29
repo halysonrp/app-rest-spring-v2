@@ -31,7 +31,6 @@ public class UserServiceImpl extends AbstractService<User, IUserRepository> impl
 		return repository.findByEmail(email);
 	}
 	
-	
 	@Override
 	@Transactional
 	public void delete(UUID id) {

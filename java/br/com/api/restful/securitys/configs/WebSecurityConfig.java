@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -80,10 +81,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
 				.antMatchers("/login").permitAll()
 				.antMatchers(HttpMethod.POST,"/user").permitAll()
+				.antMatchers("/swagger-resources/**").permitAll()
+				.antMatchers("/configuration/security").permitAll()
+				.antMatchers("/swagger-ui.html").permitAll()
 				.anyRequest().authenticated(); //Permite todas as requisições dos endpoints do controller Auth sem necessitar de autenticação
 		httpSecurity.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class); //define a classe responsável por onbter o token da requisição e verificar se ele é válido 
 		httpSecurity.headers().cacheControl();
 	}
+	
+
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web.ignoring().antMatchers("/v2/api-docs",
+				"/configuration/ui",
+				"/swagger-resources",
+				"/configuration/security",
+				"/swagger-ui.html",
+				"/webjars/**");
+	}
+
+	
 	
 
 }
