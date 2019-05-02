@@ -9,6 +9,14 @@ public class BusinessException extends RuntimeException {
 	private static final long serialVersionUID = 571793320849663039L;
 	
 	List<String> messages = new ArrayList<>();
+	
+	public BusinessException() {
+	
+	}
+	
+	public BusinessException(String message) {
+		messages.add(message);
+	}
 
     public void addMessages(String message) {
         messages.add(message);

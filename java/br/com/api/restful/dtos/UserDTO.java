@@ -4,9 +4,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.NotBlank;
 
 public class UserDTO {
 	
@@ -40,7 +40,9 @@ public class UserDTO {
 		this.name = name;
 	}
 
-	@NotNull(message= "Campo Email obrigatório.")
+	@Email(message="Email inválido")
+	@NotNull(message= "Campo E-mail é obrigatório.")
+	@NotEmpty(message="Campo E-mail não pode ser vazio")
 	public String getEmail() {
 		return email;
 	}
@@ -49,7 +51,8 @@ public class UserDTO {
 		this.email = email;
 	}
 	
-	@NotNull(message= "Campo Password obrigatório.")
+	@NotNull(message= "Campo Password é obrigatório.")
+	@NotEmpty(message="Campo Password não pode ser vazio")
 	public String getPassword() {
 		return password;
 	}

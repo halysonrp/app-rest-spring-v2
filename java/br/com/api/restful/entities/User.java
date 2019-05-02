@@ -3,11 +3,8 @@
  */
 package br.com.api.restful.entities;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,15 +12,9 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.Email;
-
-import org.springframework.data.jpa.domain.AbstractPersistable;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * @author Halyson
@@ -37,6 +28,8 @@ public class User extends AbstractEntity{
 	private String email;
 	private String password;
 	private Date lastLogin;
+	private Date created;
+	private Date modified;
 	private String token;
 	
 	private List<Phone> phones;
@@ -98,11 +91,35 @@ public class User extends AbstractEntity{
 		this.token = token;
 	}
 	
-	@Override
+	@Column(name = "dt_created", nullable = false)
+	public Date getCreated() {
+		return created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	@Column(name = "dt_modified", nullable = false)
+	public Date getModified() {
+		return modified;
+	}
+
+	public void setModified(Date modified) {
+		this.modified = modified;
+	}
+	
 	@PrePersist
 	public void prePersist() {
-		super.prePersist();
+		final Date newDate = new Date();
+		this.created = newDate;
+		this.modified = newDate;
 		this.setLastLogin(new Date());
+	}
+
+	@PreUpdate
+	public void preUpdate() {
+		this.modified = new Date();
 	}
 
 

@@ -52,9 +52,7 @@ public class UserServiceImpl extends AbstractService<User, IUserRepository> impl
 	  public void emailValidation(String email) {
 		  User user = repository.findByEmail(email);
 		  if(user != null) {
-			  BusinessException businessException = new BusinessException();
-			  businessException.addMessages("E-mail já existente");
-			  throw businessException;
+			  throw new BusinessException("E-mail já existente");
 		  }
 		    
 	  }

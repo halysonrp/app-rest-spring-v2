@@ -44,7 +44,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 		String token = request.getHeader(AUTH_HEADER);
 		
 		if (token != null && token.startsWith(BEARER_PREFIX)) {
-			token.replace(BEARER_PREFIX, "");
+			token = token.replace(BEARER_PREFIX, "");
 			
 		}
 		

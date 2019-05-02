@@ -38,20 +38,15 @@ public class AuthControllerImpl extends AbstractControllerImpl<LoginDTO, User, I
 	private JwtTokenUtil jwtTokenUtil;
 
 	@PostMapping
-	public ResponseEntity<User> authenticate(@Valid @RequestBody LoginDTO authDTO, BindingResult eResult) {
+	public ResponseEntity<User> authenticate(@Valid @RequestBody LoginDTO authDTO, BindingResult result) {
+		if (result.hasErrors()) {
+			generateResponseError(result);
+		}
 
 		User user = new User();
 
-		if (eResult.hasErrors()) {
-			for (ObjectError error : eResult.getAllErrors()) {
-				user.getMensagem().add(error.getDefaultMessage());
-			};
-			return ResponseEntity.badRequest().body(user);
-		}
-
 		Authentication authentication = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(authDTO.getEmail(), authDTO.getPassword()));
-
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
 		user = service.findByEmail(authDTO.getEmail());
