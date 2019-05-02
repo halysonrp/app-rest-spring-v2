@@ -1,5 +1,6 @@
 package br.com.api.restful.services.impl;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import br.com.api.restful.securitys.utils.JwtTokenUtil;
 import br.com.api.restful.services.IUserService;
 
 @Service
-public class UserServiceImpl extends AbstractService<User, IUserRepository> implements IUserService {
+public class UserServiceImpl implements IUserService {
 	
 	@Autowired
 	private IUserRepository userRepository;
@@ -23,12 +24,29 @@ public class UserServiceImpl extends AbstractService<User, IUserRepository> impl
 	
 	@Override
 	public User findById(UUID id) {
-		return repository.findById(id);
+		return userRepository.findById(id);
 	}
 	
 	@Override
 	public User findByEmail(String email) {
-		return repository.findByEmail(email);
+		return userRepository.findByEmail(email);
+	}
+	
+	@Override
+	public List<User> findAll() {
+		return userRepository.findAll();
+	}
+	
+	@Override
+	public User save(User user) {
+		if (user.isNew()) {
+			emailValidation(user.getEmail());
+		} else {
+			User oldUser = userRepository.findById(user.getId());
+			user.setCreated(oldUser.getCreated());
+		}
+		user.setToken(jwtToken.obterToken(user.getEmail()));
+		return userRepository.save(user);
 	}
 	
 	@Override
@@ -38,22 +56,11 @@ public class UserServiceImpl extends AbstractService<User, IUserRepository> impl
 	}
 	
 	@Override
-	public User save(User user) {
-		if(user.isNew()) {
-			emailValidation(user.getEmail());
-		}else {
-			User oldUser = repository.findById(user.getId());
-			user.setCreated(oldUser.getCreated());
+	public void emailValidation(String email) {
+		User user = userRepository.findByEmail(email);
+		if (user != null) {
+			throw new BusinessException("E-mail já existente");
 		}
-		user.setToken(jwtToken.obterToken(user.getEmail()));
-		return repository.save(user);
+
 	}
-	
-	  public void emailValidation(String email) {
-		  User user = repository.findByEmail(email);
-		  if(user != null) {
-			  throw new BusinessException("E-mail já existente");
-		  }
-		    
-	  }
 }

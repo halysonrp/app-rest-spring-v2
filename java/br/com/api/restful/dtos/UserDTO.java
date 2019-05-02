@@ -40,7 +40,7 @@ public class UserDTO {
 		this.name = name;
 	}
 
-	@Email(message="Email inválido")
+	@Email(message="Formato E-mail inválido")
 	@NotNull(message= "Campo E-mail é obrigatório.")
 	@NotEmpty(message="Campo E-mail não pode ser vazio")
 	public String getEmail() {
