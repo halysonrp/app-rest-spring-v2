@@ -10,17 +10,17 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import br.com.api.restful.dtos.UserDTO;
 import br.com.api.restful.entities.User;
+
 
 public interface IUserController {
 
 	@GetMapping
 	ResponseEntity<User> get(UUID id);
-
-	
-	ResponseEntity<User> get();
 
 	@PostMapping
 	ResponseEntity<User> post(@Valid UserDTO userDto, BindingResult result);
